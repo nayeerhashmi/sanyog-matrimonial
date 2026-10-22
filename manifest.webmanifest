@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "Sanyog Matrimonial",
+  "short_name": "Sanyog",
+  "description": "A thoughtful matrimonial platform for Jammu and Kashmir, open to every community.",
+  "lang": "en-IN",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#fbf8f2",
+  "theme_color": "#70253f",
+  "categories": ["lifestyle", "social"],
+  "icons": [
+    { "src": "./icons/sanyog.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
