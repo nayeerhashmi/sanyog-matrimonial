@@ -22,3 +22,11 @@ const menuToggle=document.getElementById("menuToggle"),mainNav=document.getEleme
 menuToggle.addEventListener("click",()=>{const open=mainNav.classList.toggle("open");menuToggle.setAttribute("aria-expanded",String(open));});
 mainNav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mainNav.classList.remove("open");menuToggle.setAttribute("aria-expanded","false");}));
 document.getElementById("year").textContent=new Date().getFullYear();renderProfiles();
+
+
+// Progressive Web App support. The service worker caches only public static files.
+if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
+  window.addEventListener("load", () => {
+    navigator.serviceWorker.register("./sw.js").catch(error => console.warn("Sanyog offline support could not be registered.", error));
+  });
+}
