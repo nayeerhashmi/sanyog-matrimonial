@@ -2,7 +2,7 @@ name: Deploy Sanyog prototype to GitHub Pages
 
 on:
   push:
-    branches: ["prototype/phase-1"]
+    branches: ["main"]
   workflow_dispatch:
 
 permissions:
