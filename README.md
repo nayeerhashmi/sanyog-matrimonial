@@ -1,23 +1,26 @@
 # Sanyog Matrimonial
 
-A mobile-first matrimonial platform for Jammu & Kashmir, open to all religions and communities. Supports adult candidates who manage their own profiles and family-assisted profiles with candidate consent.
+A client-owned matrimonial platform for Jammu & Kashmir, Ladakh, and Himachal Pradesh. The product is designed as a mobile-first website with a path to an installable PWA and a future Android app.
 
-## Project status
+## Client ownership and handover
+This is a client project. Keep ownership, accounts, billing, domain, hosting, email delivery, database, storage, analytics, and app-store listings under the client's control wherever possible. Use delegated access rather than personal production credentials. Before handover, transfer repository administration to the client, document services and recovery, rotate secrets, and revoke unnecessary developer access.
 
-This repository is the home for the Sanyog Matrimonial project. Development will proceed in milestones, with a focus on privacy, consent, and security before public launch.
+## Current status
+This repository contains a visual prototype and project documentation. It is not a production matrimonial service. Registration does not create accounts or save data. Sample profiles are fictional.
 
-### Planned milestones
-1. Product requirements and front-end prototype
-2. Authentication and secure database
-3. Profiles, family permissions, and partner preferences
-4. Match discovery and mutual interest
-5. Private messaging and notifications
-6. Moderation, reporting, blocking, and admin controls
-7. Billing and premium plans
-8. Security review, beta testing, and public launch
+## Regional scope
+Initial focus: Jammu & Kashmir, Ladakh, and Himachal Pradesh. The platform is open to all religions and communities. Caste, community, tribe, language, religion, and location are distinct optional fields; identity must never be inferred from name or location. See [Regional Taxonomy](docs/REGIONAL-TAXONOMY.md).
 
-## Security notice
+## Project map
+See [Project Index](docs/PROJECT-INDEX.md) for the file map grouped by responsibility.
 
-The public-facing site must not collect real user information until authentication, row-level database access policies, photo access controls, reporting, blocking, moderation, account deletion, and privacy notices are ready and tested.
+- Product: `docs/PRODUCT-SPEC.md`, `docs/REGISTRATION-FLOW.md`
+- Regional data design: `docs/REGIONAL-TAXONOMY.md`
+- Website/PWA: `index.html`, `styles.css`, `app.js`, `profile-setup.html`, `manifest.webmanifest`, `sw.js`, `icons/`
+- Deployment: `.github/workflows/pages.yml`
+- Security: `docs/SECURITY-AND-LAUNCH.md`
+- Client transfer: `docs/CLIENT-HANDOVER.md`
+- Roadmap: `docs/BUILD-ROADMAP.md`
 
-Never commit secrets, private user data, or production credentials to this repository.
+## Security rule
+Do not collect real personal data until authentication, authorization, database row-level security, secure photo storage, moderation, privacy documents, and account deletion have been implemented and tested.
