@@ -16,7 +16,8 @@ function renderProfiles(){
 }
 function showNotice(message){dialog.querySelector("p").textContent=message||"This is an early visual prototype. Accounts and registration are not connected yet, so please don't submit personal information.";if(typeof dialog.showModal==="function")dialog.showModal();else alert(message||"Prototype only. Registration is not active.");}
 searchInput.addEventListener("input",renderProfiles);districtFilter.addEventListener("change",renderProfiles);
-document.getElementById("loginButton").addEventListener("click",()=>showNotice("Login will be enabled after secure authentication is connected."));\n["joinButton","heroJoin","closingJoin"].forEach(id=>{const link=document.getElementById(id);if(link)link.addEventListener("click",event=>{event.preventDefault();window.location.href="profile-setup.html";});});
+document.getElementById("loginButton").addEventListener("click",()=>showNotice("Login will be enabled after secure authentication is connected."));
+["joinButton","heroJoin","closingJoin"].forEach(id=>{const link=document.getElementById(id);if(link)link.addEventListener("click",event=>{event.preventDefault();window.location.href="profile-setup.html";});});
 document.getElementById("closeDialog").addEventListener("click",()=>dialog.close());document.getElementById("acknowledgeDialog").addEventListener("click",()=>dialog.close());
 const menuToggle=document.getElementById("menuToggle"),mainNav=document.getElementById("mainNav");
 menuToggle.addEventListener("click",()=>{const open=mainNav.classList.toggle("open");menuToggle.setAttribute("aria-expanded",String(open));});
