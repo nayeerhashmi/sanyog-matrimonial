@@ -4,7 +4,9 @@ const sampleProfiles = [
   {name:"Meher F.",age:26,district:"Poonch",profession:"Teacher",education:"Master's degree",language:"Pahari",tone:3,symbol:"م",note:"Believes in growing together"},
   {name:"Aarav K.",age:30,district:"Udhampur",profession:"Doctor",education:"Medical degree",language:"Hindi",tone:2,symbol:"अ",note:"Quiet weekends and meaningful talks"},
   {name:"Zoya N.",age:28,district:"Anantnag",profession:"Researcher",education:"Master's degree",language:"Urdu",tone:3,symbol:"ز",note:"Curious about people and places"},
-  {name:"Rohan D.",age:29,district:"Baramulla",profession:"Entrepreneur",education:"Bachelor's degree",language:"Kashmiri",tone:1,symbol:"र",note:"Grounded, warm, and optimistic"}
+  {name:"Rohan D.",age:29,district:"Baramulla",profession:"Entrepreneur",education:"Bachelor's degree",language:"Kashmiri",tone:1,symbol:"र",note:"Grounded, warm, and optimistic"},
+  {name:"Tsering L.",age:28,district:"Leh",profession:"Researcher",education:"Master's degree",language:"Ladakhi",tone:2,symbol:"ལ",note:"Values curiosity and the outdoors"},
+  {name:"Ananya S.",age:27,district:"Kangra",profession:"Designer",education:"Bachelor's degree",language:"Hindi",tone:3,symbol:"अ",note:"Creative, thoughtful, and family-minded"}
 ];
 const grid=document.querySelector("#profileGrid"),searchInput=document.querySelector("#searchInput"),districtFilter=document.querySelector("#districtFilter"),dialog=document.querySelector("#noticeDialog");
 function renderProfiles(){
