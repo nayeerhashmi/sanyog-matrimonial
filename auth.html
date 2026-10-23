@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#6e233e">
+<title>Account access | Sanyog</title>
+<style>
+:root{--wine:#70253f;--wine-dark:#4b182d;--cream:#fbf8f2;--paper:#fffdf9;--ink:#292324;--muted:#766a6b;--line:#e9dfd9;--rose:#f3e8e9}
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:var(--cream);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;display:grid;place-items:center;padding:24px}.shell{width:min(100%,460px)}.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink);margin:0 auto 24px;width:max-content}.mark{display:grid;place-items:center;width:44px;height:44px;border-radius:15px;background:var(--wine);color:#fff;font-size:24px}.brand strong{display:block;font-size:23px;letter-spacing:-.8px}.brand small{display:block;font-size:9px;letter-spacing:1.4px;color:var(--muted)}.panel{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:clamp(24px,6vw,38px);box-shadow:0 16px 50px #4b182d0c}.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:1.8px;color:var(--wine);font-weight:700}h1{font-size:32px;letter-spacing:-1px;line-height:1.1;margin:10px 0}p{color:var(--muted);line-height:1.6;font-size:14px}.switches{display:grid;grid-template-columns:1fr 1fr;background:var(--rose);border-radius:12px;padding:4px;margin:24px 0 20px}.switches button{border:0;background:transparent;border-radius:9px;padding:11px;color:var(--wine-dark);font-weight:650;cursor:pointer}.switches button[aria-pressed=true]{background:#fff;box-shadow:0 1px 5px #0000000c}label{display:block;font-size:13px;font-weight:650;margin:15px 0 7px}input{width:100%;border:1px solid var(--line);border-radius:11px;background:#fff;padding:13px 14px;font:inherit;font-size:15px;outline-color:var(--wine)}.primary{width:100%;border:0;border-radius:11px;background:var(--wine);color:#fff;padding:14px 16px;font:inherit;font-weight:700;margin-top:20px;cursor:pointer}.primary:disabled{opacity:.65;cursor:wait}.subtle{border:0;background:transparent;color:var(--wine);font:inherit;font-size:13px;font-weight:650;cursor:pointer;padding:10px 0}.status{display:none;border-radius:10px;padding:12px 13px;font-size:13px;line-height:1.5;margin-top:16px;overflow-wrap:anywhere}.status.show{display:block}.status.error{background:#fff0ee;color:#8a2520}.status.success{background:#edf8ef;color:#245d31}.foot{text-align:center;font-size:12px;margin-top:20px}.foot a{color:var(--wine)}.privacy{font-size:12px;background:#f5eee6;padding:12px;border-radius:10px;margin-top:18px}.hidden{display:none!important}
+</style>
+</head>
+<body>
+<main class="shell">
+<a class="brand" href="index.html"><span class="mark">स</span><span><strong>sanyog</strong><small>J&K · LADAKH · HIMACHAL</small></span></a>
+<section class="panel">
+<span class="eyebrow">A thoughtful beginning</span>
+<h1 id="heading">Welcome back.</h1>
+<p id="intro">Sign in to your Sanyog account using your email address.</p>
+<div class="switches" id="switches"><button type="button" id="loginTab" aria-pressed="true">Log in</button><button type="button" id="signupTab" aria-pressed="false">Create account</button></div>
+<form id="authForm">
+<div id="nameWrap" class="hidden"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" maxlength="80" placeholder="Enter your name"></div>
+<label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
+<div id="passwordWrap"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"></div>
+<button class="subtle" type="button" id="resetButton">Forgot password?</button>
+<button class="primary" id="submitButton" type="submit">Log in</button>
+</form>
+<div id="status" class="status" role="status" aria-live="polite"></div>
+<div id="signedIn" class="hidden"><p id="signedInText"></p><button class="primary" type="button" id="logoutButton">Log out</button></div>
+<div class="privacy">Your account is managed by Supabase Authentication. This page does not yet save matrimonial profile details or photos. Please do not enter another person's information.</div>
+</section>
+<p class="foot"><a href="index.html">← Back to Sanyog</a></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+  const PROJECT_URL = "https://eoziavhnktcsqmtnfuhz.supabase.co";
+  const PUBLISHABLE_KEY = "sb_publishable_j1jUq-wkJmt6v_VrHvyimQ_hHu0vSMa";
+  const client = window.supabase.createClient(PROJECT_URL, PUBLISHABLE_KEY);
+  const $ = id => document.getElementById(id);
+  let mode = "login";
+  const showStatus = (message, type) => { $("status").textContent = message; $("status").className = "status show " + type; };
+  const setMode = next => {
+    mode = next;
+    $("loginTab").setAttribute("aria-pressed", String(mode === "login"));
+    $("signupTab").setAttribute("aria-pressed", String(mode === "signup"));
+    $("nameWrap").classList.toggle("hidden", mode !== "signup");
+    $("passwordWrap").classList.remove("hidden");
+    $("password").required = true;
+    $("resetButton").classList.toggle("hidden", mode !== "login");
+    $("switches").classList.remove("hidden");
+    $("heading").textContent = mode === "login" ? "Welcome back." : "Create your account.";
+    $("intro").textContent = mode === "login" ? "Sign in to your Sanyog account using your email address." : "Use your own email address. You must be 18 or older to create a matrimonial profile.";
+    $("submitButton").textContent = mode === "login" ? "Log in" : "Create account";
+    $("status").className = "status";
+  };
+  $("loginTab").addEventListener("click", () => setMode("login"));
+  $("signupTab").addEventListener("click", () => setMode("signup"));
+  $("authForm").addEventListener("submit", async event => {
+    event.preventDefault();
+    const email = $("email").value.trim();
+    const password = $("password").value;
+    $("submitButton").disabled = true;
+    $("submitButton").textContent = "Please wait…";
+    $("status").className = "status";
+    try {
+      if (mode === "signup") {
+        const name = $("name").value.trim();
+        if (!name) throw new Error("Please enter your name.");
+        const { data, error } = await client.auth.signUp({
+          email, password,
+          options: { data: { display_name: name }, emailRedirectTo: window.location.origin + window.location.pathname }
+        });
+        if (error) throw error;
+        if (data.session) {
+          showStatus("Your account has been created and you are signed in. Profile setup is not connected yet.", "success");
+          await refreshSession();
+        } else {
+          showStatus("If this email can be registered, Supabase will send a confirmation link. Open it to confirm your email, then return here to log in. If confirmation redirects incorrectly, the site's URL settings need updating in Supabase.", "success");
+        }
+      } else {
+        const { error } = await client.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        showStatus("You are signed in. Matrimonial profile creation is not connected yet.", "success");
+        await refreshSession();
+      }
+    } catch (error) {
+      showStatus(error.message || "We couldn't complete that request. Please try again.", "error");
+    } finally {
+      $("submitButton").disabled = false;
+      $("submitButton").textContent = mode === "login" ? "Log in" : "Create account";
+    }
+  });
+  $("resetButton").addEventListener("click", async () => {
+    const email = $("email").value.trim();
+    if (!email) { showStatus("Enter your email address first, then choose Forgot password again.", "error"); $("email").focus(); return; }
+    $("resetButton").disabled = true;
+    try {
+      const { error } = await client.auth.resetPasswordForEmail(email, { redirectTo: window.location.origin + window.location.pathname + "?reset=1" });
+      if (error) throw error;
+      showStatus("If an account exists for this address, a password reset email will be sent. Check your inbox and spam folder.", "success");
+    } catch (error) { showStatus(error.message || "We couldn't send the reset email.", "error"); }
+    finally { $("resetButton").disabled = false; }
+  });
+  $("logoutButton").addEventListener("click", async () => {
+    const { error } = await client.auth.signOut();
+    if (error) showStatus(error.message, "error");
+    await refreshSession();
+  });
+  async function refreshSession() {
+    const { data: { session } } = await client.auth.getSession();
+    $("authForm").classList.toggle("hidden", !!session);
+    $("switches").classList.toggle("hidden", !!session);
+    $("signedIn").classList.toggle("hidden", !session);
+    if (session) $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Profile setup is not connected yet.";
+  }
+  client.auth.onAuthStateChange(() => { refreshSession(); });
+  if (new URLSearchParams(location.search).has("reset")) {
+    $("intro").textContent = "If you opened a password recovery link, enter a new password after confirming your email.";
+    $("heading").textContent = "Reset your password";
+    $("password").autocomplete = "new-password";
+    $("password").placeholder = "Choose a new password";
+    $("submitButton").textContent = "Update password";
+    $("authForm").addEventListener("submit", async event => {
+      if (!new URLSearchParams(location.search).has("reset")) return;
+      event.preventDefault();
+      const { error } = await client.auth.updateUser({ password: $("password").value });
+      if (error) showStatus(error.message, "error");
+      else { showStatus("Password updated. You can now log in with your new password.", "success"); history.replaceState({}, "", location.pathname); setMode("login"); }
+    }, { once: true });
+  }
+  refreshSession();
+})();
+</script>
+</body>
+</html>
