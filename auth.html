@@ -60,6 +60,18 @@
     event.preventDefault();
     const email = $("email").value.trim();
     const password = $("password").value;
+    if (new URLSearchParams(location.search).has("reset")) {
+      $("submitButton").disabled = true;
+      try {
+        const { error } = await client.auth.updateUser({ password });
+        if (error) throw error;
+        showStatus("Password updated. You can now log in with your new password.", "success");
+        history.replaceState({}, "", location.pathname);
+        setMode("login");
+      } catch (error) { showStatus(error.message || "We couldn't update your password.", "error"); }
+      finally { $("submitButton").disabled = false; }
+      return;
+    }
     $("submitButton").disabled = true;
     $("submitButton").textContent = "Please wait…";
     $("status").className = "status";
@@ -116,18 +128,15 @@
   }
   client.auth.onAuthStateChange(() => { refreshSession(); });
   if (new URLSearchParams(location.search).has("reset")) {
-    $("intro").textContent = "If you opened a password recovery link, enter a new password after confirming your email.";
+    $("intro").textContent = "Enter a new password for your account.";
     $("heading").textContent = "Reset your password";
     $("password").autocomplete = "new-password";
     $("password").placeholder = "Choose a new password";
     $("submitButton").textContent = "Update password";
-    $("authForm").addEventListener("submit", async event => {
-      if (!new URLSearchParams(location.search).has("reset")) return;
-      event.preventDefault();
-      const { error } = await client.auth.updateUser({ password: $("password").value });
-      if (error) showStatus(error.message, "error");
-      else { showStatus("Password updated. You can now log in with your new password.", "success"); history.replaceState({}, "", location.pathname); setMode("login"); }
-    }, { once: true });
+    $("resetButton").classList.add("hidden");
+    $("switches").classList.add("hidden");
+    $("email").classList.add("hidden");
+    document.querySelector('label[for="email"]').classList.add("hidden");
   }
   refreshSession();
 })();
