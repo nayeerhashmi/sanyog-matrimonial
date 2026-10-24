@@ -19,7 +19,7 @@
 <p id="intro">Sign in to your Sanyog account using your email address.</p>
 <div class="switches" id="switches"><button type="button" id="loginTab" aria-pressed="true">Log in</button><button type="button" id="signupTab" aria-pressed="false">Create account</button></div>
 <form id="authForm">
-<div id="nameWrap" class="hidden"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" maxlength="80" placeholder="Enter your name"></div>
+<div id="nameWrap" class="hidden"><label for="firstName">First name</label><input id="firstName" name="given-name" autocomplete="given-name" maxlength="60" placeholder="First name"><label for="lastName">Last name</label><input id="lastName" name="family-name" autocomplete="family-name" maxlength="60" placeholder="Last name"></div>
 <label for="email">Email address</label><input id="email" name="email" type="email" autocomplete="email" required maxlength="254" placeholder="you@example.com">
 <div id="passwordWrap"><label for="password">Password</label><input id="password" name="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"></div>
 <button class="subtle" type="button" id="resetButton">Forgot password?</button>
@@ -45,6 +45,8 @@
     $("loginTab").setAttribute("aria-pressed", String(mode === "login"));
     $("signupTab").setAttribute("aria-pressed", String(mode === "signup"));
     $("nameWrap").classList.toggle("hidden", mode !== "signup");
+    $("firstName").required = mode === "signup";
+    $("lastName").required = mode === "signup";
     $("passwordWrap").classList.remove("hidden");
     $("password").required = true;
     $("resetButton").classList.toggle("hidden", mode !== "login");
@@ -77,11 +79,12 @@
     $("status").className = "status";
     try {
       if (mode === "signup") {
-        const name = $("name").value.trim();
-        if (!name) throw new Error("Please enter your name.");
+        const firstName = $("firstName").value.trim();
+        const lastName = $("lastName").value.trim();
+        if (!firstName || !lastName) throw new Error("Please enter both your first and last name.");
         const { data, error } = await client.auth.signUp({
           email, password,
-          options: { data: { display_name: name }, emailRedirectTo: window.location.origin + window.location.pathname }
+          options: { data: { first_name: firstName, last_name: lastName, display_name: firstName + " " + lastName }, emailRedirectTo: window.location.origin + window.location.pathname }
         });
         if (error) throw error;
         if (data.session) {
