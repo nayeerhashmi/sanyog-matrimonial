@@ -26,8 +26,8 @@
 <button class="primary" id="submitButton" type="submit">Log in</button>
 </form>
 <div id="status" class="status" role="status" aria-live="polite"></div>
-<div id="signedIn" class="hidden"><p id="signedInText"></p><button class="primary" type="button" id="logoutButton">Log out</button></div>
-<div class="privacy">Your account is managed by Supabase Authentication. This page does not yet save matrimonial profile details or photos. Please do not enter another person's information.</div>
+<div id="signedIn" class="hidden"><p id="signedInText"></p><a class="primary" style="display:block;text-align:center;text-decoration:none" href="profile-setup.html">Continue to profile setup</a><button class="primary" type="button" id="logoutButton">Log out</button></div>
+<div class="privacy">Your account is managed by Supabase Authentication. Profile details are saved privately after you complete profile setup. Photos are not uploaded yet.</div>
 </section>
 <p class="foot"><a href="index.html">← Back to Sanyog</a></p>
 </main>
@@ -85,16 +85,18 @@
         });
         if (error) throw error;
         if (data.session) {
-          showStatus("Your account has been created and you are signed in. Profile setup is not connected yet.", "success");
+          showStatus("Your account has been created and you are signed in. Continue to profile setup when ready.", "success");
           await refreshSession();
+          if (new URLSearchParams(location.search).get("next") === "profile-setup.html") window.location.href = "profile-setup.html";
         } else {
           showStatus("If this email can be registered, Supabase will send a confirmation link. Open it to confirm your email, then return here to log in. If confirmation redirects incorrectly, the site's URL settings need updating in Supabase.", "success");
         }
       } else {
         const { error } = await client.auth.signInWithPassword({ email, password });
         if (error) throw error;
-        showStatus("You are signed in. Matrimonial profile creation is not connected yet.", "success");
+        showStatus("You are signed in. You can continue to your private profile setup.", "success");
         await refreshSession();
+        if (new URLSearchParams(location.search).get("next") === "profile-setup.html") window.location.href = "profile-setup.html";
       }
     } catch (error) {
       showStatus(error.message || "We couldn't complete that request. Please try again.", "error");
@@ -124,7 +126,7 @@
     $("authForm").classList.toggle("hidden", !!session);
     $("switches").classList.toggle("hidden", !!session);
     $("signedIn").classList.toggle("hidden", !session);
-    if (session) $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Profile setup is not connected yet.";
+    if (session) $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Continue to profile setup to save your private draft.";
   }
   client.auth.onAuthStateChange(() => { refreshSession(); });
   if (new URLSearchParams(location.search).has("reset")) {
