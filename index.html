@@ -9,13 +9,15 @@
   <link rel="stylesheet" href="styles.css">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icons/sanyog.svg" type="image/svg+xml">
-</head>
+<style>
+.account-avatar{width:39px;height:39px;flex:0 0 39px;border-radius:50%;display:inline-grid;place-items:center;background:var(--rose);border:1px solid #d8c4c7;color:var(--wine);font-size:.92rem;font-weight:800;letter-spacing:0;transition:transform .18s ease,box-shadow .18s ease}.account-avatar:hover{transform:translateY(-1px);box-shadow:0 5px 14px rgba(112,37,63,.16)}.account-avatar span{display:block}.account-avatar.signed-in{background:var(--wine);color:white;border-color:var(--wine)}
+</style></head>
 <body>
   <div class="prototype-banner">Private development preview · Fictional sample profiles · Account sign-in enabled</div>
   <header class="site-header">
     <a class="brand" href="#" aria-label="Sanyog home"><span class="brand-mark">स</span><span><strong>sanyog</strong><small>J&K · LADAKH · HIMACHAL</small></span></a>
     <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
-    <nav id="mainNav" class="main-nav"><a href="#how">How it works</a><a href="#values">Our promise</a><a href="#matches">Explore profiles</a><a class="button button-outline" id="loginButton" href="auth.html">Log in</a><a class="button button-primary" id="joinButton" href="profile-setup.html">Create a profile</a></nav>
+    <nav id="mainNav" class="main-nav"><a href="#how">How it works</a><a href="#values">Our promise</a><a href="#matches">Explore profiles</a><a class="button button-outline" id="loginButton" href="auth.html">Log in</a><a class="button button-primary" id="joinButton" href="profile-setup.html">Create a profile</a><a class="account-avatar" id="accountAvatar" href="auth.html" aria-label="Open your account" title="Your account"><span id="avatarInitial">♙</span></a></nav>
   </header>
   <main>
     <section class="hero">
@@ -41,6 +43,7 @@
   </main>
   <footer class="site-footer"><a class="brand footer-brand" href="#"><span class="brand-mark">स</span><span><strong>sanyog</strong><small>JAMMU & KASHMIR</small></span></a><p>Built around respect, choice, and meaningful connections.</p><div class="footer-links"><a href="#values">Privacy principles</a><a href="#how">How it works</a><a href="mailto:hello@example.com">Contact placeholder</a></div><small class="copyright">© <span id="year"></span> Sanyog · Working project name.</small></footer>
   <dialog id="noticeDialog" class="notice-dialog"><button class="dialog-close" id="closeDialog" aria-label="Close dialog">×</button><span class="dialog-mark">✳</span><h2>We're building this with care.</h2><p>This is an early visual prototype. Accounts and registration are not connected yet, so please don't submit personal information.</p><button class="button button-primary" id="acknowledgeDialog">Got it</button></dialog>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 </body>
 </html>
