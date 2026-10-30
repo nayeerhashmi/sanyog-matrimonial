@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#70253f">
+<title>Member dashboard | Sanyog</title>
+<style>
+:root{--wine:#70253f;--deep:#4b182d;--cream:#fbf8f2;--paper:#fffdf9;--ink:#292324;--muted:#766a6b;--line:#e9dfd9;--rose:#f3e8e9;--green:#42694e}
+*{box-sizing:border-box}body{margin:0;background:var(--cream);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}a{color:inherit;text-decoration:none}button{font:inherit;cursor:pointer}.top{height:72px;background:var(--paper);border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 max(20px,calc((100% - 1120px)/2))}.brand{display:flex;align-items:center;gap:10px}.mark{width:40px;height:40px;border-radius:50% 50% 50% 8px;background:var(--wine);color:white;display:grid;place-items:center;font:1.5rem Georgia}.brand strong{display:block;font:600 1.3rem Georgia}.brand small{font-size:.55rem;letter-spacing:.16em;color:var(--muted)}.top-actions{display:flex;gap:10px;align-items:center}.top-actions a,.top-actions button{border:1px solid var(--line);background:white;border-radius:8px;padding:9px 13px;color:var(--wine);font-size:.82rem}.wrap{max-width:1120px;margin:38px auto 70px;padding:0 20px}.welcome{display:flex;justify-content:space-between;align-items:end;gap:18px;margin-bottom:25px}.eyebrow{font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;color:var(--wine);font-weight:750}.welcome h1{font:500 clamp(2.2rem,5vw,3.4rem) Georgia;margin:9px 0}.welcome p{color:var(--muted);margin:0}.status{border-radius:10px;background:#f5eee6;padding:13px 16px;font-size:.82rem;color:#624e45;margin:20px 0}.grid{display:grid;grid-template-columns:260px 1fr;gap:20px}.side,.panel,.tile{background:var(--paper);border:1px solid var(--line);border-radius:14px}.side{padding:13px;height:max-content}.navbtn{display:flex;align-items:center;gap:12px;width:100%;padding:13px 12px;border:0;border-radius:8px;background:transparent;color:#5c4c4e;text-align:left;font-weight:650}.navbtn.active,.navbtn:hover{background:var(--rose);color:var(--wine)}.navicon{width:22px;text-align:center;font-size:1.1rem}.main{min-width:0}.panel{padding:24px;margin-bottom:18px}.panel h2{font:600 1.45rem Georgia;margin:0 0 7px}.muted{color:var(--muted);font-size:.86rem;line-height:1.6}.profile-head{display:flex;justify-content:space-between;gap:15px;align-items:center}.pill{font-size:.68rem;padding:6px 10px;border-radius:30px;background:#f5eee6;color:#79572e;font-weight:750}.progress{height:7px;background:#eee5e1;border-radius:9px;overflow:hidden;margin:18px 0 8px}.progress span{display:block;height:100%;width:15%;background:var(--wine);border-radius:9px}.profile-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}.primary,.secondary{display:inline-flex;justify-content:center;align-items:center;border-radius:8px;padding:11px 15px;font-size:.84rem;font-weight:700}.primary{background:var(--wine);color:white}.secondary{border:1px solid #d8c4c7;color:var(--wine);background:white}.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:13px}.tile{padding:17px}.tile .symbol{font-size:1.25rem;color:var(--wine)}.tile h3{font:600 1.08rem Georgia;margin:10px 0 5px}.tile p{font-size:.77rem;color:var(--muted);line-height:1.5;margin:0 0 12px}.tile a{font-size:.78rem;color:var(--wine);font-weight:750}.setting-row{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:15px 0;border-bottom:1px solid var(--line)}.setting-row:last-child{border-bottom:0}.setting-row strong{display:block;font-size:.88rem}.setting-row small{display:block;color:var(--muted);margin-top:4px;font-size:.76rem}.action{border:1px solid #d8c4c7;background:white;color:var(--wine);padding:9px 12px;border-radius:8px;font-size:.78rem;font-weight:700;white-space:nowrap}.notice{display:none;padding:12px;border-radius:8px;background:#edf8ef;color:var(--green);font-size:.82rem;margin-top:14px}.notice.show{display:block}.hidden{display:none!important}.foot{color:var(--muted);font-size:.72rem;text-align:center;margin-top:28px}
+@media(max-width:760px){.grid{grid-template-columns:1fr}.side{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;padding:7px}.navbtn{justify-content:center;flex-direction:column;gap:4px;padding:9px 4px;font-size:.67rem}.navicon{font-size:1rem}.tiles{grid-template-columns:1fr}.welcome{align-items:start;flex-direction:column}.profile-head{align-items:start;flex-direction:column}.panel{padding:18px}.top{padding:0 15px}.brand small{display:none}.top-actions a{display:none}}
+</style>
+</head>
+<body>
+<header class="top"><a class="brand" href="index.html"><span class="mark">स</span><span><strong>sanyog</strong><small>J&K · LADAKH · HIMACHAL</small></span></a><div class="top-actions"><a href="index.html">Visit website ↗</a><button id="signOutTop">Sign out</button></div></header>
+<main class="wrap">
+<section class="welcome"><div><span class="eyebrow">Your personal space</span><h1 id="greeting">Welcome to Sanyog.</h1><p>Manage your profile, privacy and account from one place.</p></div></section>
+<div class="status" id="accountStatus">Loading your secure account…</div>
+<div class="grid">
+<aside class="side" aria-label="Dashboard navigation">
+<button class="navbtn active" data-view="overview"><span class="navicon">⌂</span>Overview</button>
+<button class="navbtn" data-view="profile"><span class="navicon">◉</span>My profile</button>
+<button class="navbtn" data-view="photos"><span class="navicon">▧</span>Photos</button>
+<button class="navbtn" data-view="settings"><span class="navicon">⚙</span>Settings</button>
+</aside>
+<div class="main">
+<section class="view" id="view-overview">
+<div class="panel"><div class="profile-head"><div><h2>Your profile</h2><p class="muted" id="profileName">Your profile details will appear here.</p></div><span class="pill" id="profileStatus">DRAFT</span></div><div class="progress"><span id="completionBar"></span></div><p class="muted" id="completionText">Complete your profile to help people understand your story.</p><div class="profile-actions"><a class="primary" href="profile-setup.html">Open / edit my profile →</a><button class="secondary" id="viewProfile">View profile details</button></div></div>
+<div class="tiles">
+<article class="tile"><span class="symbol">♡</span><h3>Matches</h3><p>Matching and discovery will appear here when enabled.</p><span class="muted">Coming soon</span></article>
+<article class="tile"><span class="symbol">✉</span><h3>Interests</h3><p>Keep track of people you connect with.</p><span class="muted">Coming soon</span></article>
+<article class="tile"><span class="symbol">▧</span><h3>Profile photos</h3><p>Manage your private profile pictures.</p><button class="action" data-go="photos">Manage photos</button></article>
+</div></section>
+<section class="view hidden" id="view-profile"><div class="panel"><h2>My profile</h2><p class="muted">Your information is private to your signed-in account. You can edit it at any time.</p><div id="profileDetails" class="muted">Loading profile…</div><div class="profile-actions"><a class="primary" href="profile-setup.html">Edit profile</a></div></div></section>
+<section class="view hidden" id="view-photos"><div class="panel"><h2>Profile photos</h2><p class="muted">Your uploaded photos are stored in private storage. Photo previews and changes are managed through profile editing.</p><div id="photoDetails" class="muted">Checking photo status…</div><div class="profile-actions"><a class="primary" href="profile-setup.html">Add or change photos</a></div></div></section>
+<section class="view hidden" id="view-settings"><div class="panel"><h2>Account settings</h2><p class="muted">Manage your sign-in and privacy controls.</p>
+<div class="setting-row"><div><strong>Email address</strong><small id="accountEmail">Loading…</small></div><span class="pill" id="emailState">ACCOUNT</span></div>
+<div class="setting-row"><div><strong>Password</strong><small>Send a secure password reset link to your email.</small></div><button class="action" id="resetPassword">Reset password</button></div>
+<div class="setting-row"><div><strong>Sign-in session</strong><small>Sign out of this device when you're finished.</small></div><button class="action" id="signOutSettings">Sign out</button></div>
+<div class="setting-row"><div><strong>Profile visibility</strong><small>Your profile remains a private draft until review and visibility features are implemented.</small></div><span class="pill">PRIVATE</span></div>
+<div class="setting-row"><div><strong>Account deletion</strong><small>Deletion will be provided through a verified support process. Do not share passwords or verification codes.</small></div><span class="pill">CONTACT SUPPORT</span></div>
+<div class="notice" id="settingsNotice" role="status"></div></div></section>
+</div></div>
+<p class="foot">Sanyog · Built around respect, choice and meaningful connections.</p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(() => {
+const client=window.supabase.createClient("https://eoziavhnktcsqmtnfuhz.supabase.co","sb_publishable_j1jUq-wkJmt6v_VrHvyimQ_hHu0vSMa");
+const $=id=>document.getElementById(id);let user=null,profile=null;
+function showNotice(message){$("settingsNotice").textContent=message;$("settingsNotice").classList.add("show");}
+function go(view){document.querySelectorAll(".view").forEach(el=>el.classList.toggle("hidden",el.id!=="view-"+view));document.querySelectorAll(".navbtn").forEach(el=>el.classList.toggle("active",el.dataset.view===view));history.replaceState({}, "", "#"+view);}
+function safe(v){return v==null||v===""?"Not added":String(v);}
+function detail(label,value){return "<div class='setting-row'><div><strong>"+label+"</strong><small>"+safe(value)+"</small></div></div>";}
+async function load(){
+const {data:{session},error}=await client.auth.getSession();if(error||!session){location.replace("auth.html");return;}user=session.user;
+$("greeting").textContent="Welcome, "+(user.user_metadata?.first_name||user.user_metadata?.display_name?.split(" ")[0]||"to Sanyog")+".";
+$("accountEmail").textContent=user.email||"Not available";$("emailState").textContent=user.email_confirmed_at?"VERIFIED":"UNVERIFIED";
+const {data,error:profileError}=await client.from("profiles").select("*").eq("user_id",user.id).maybeSingle();
+if(profileError){$("accountStatus").textContent="We couldn't load your profile details. "+profileError.message;return;}
+profile=data;
+if(!profile){$("profileName").textContent="You haven't created your profile yet."; $("profileStatus").textContent="NOT STARTED";$("completionText").textContent="Start your profile to add your details and photos."; $("completionBar").style.width="0%";$("profileDetails").textContent="No profile saved yet."; $("photoDetails").textContent="No photos saved yet.";return;}
+const first=profile.first_name||user.user_metadata?.first_name||"Your",last=profile.last_name||user.user_metadata?.last_name||"profile";
+$("profileName").textContent=first+" "+last;$("profileStatus").textContent=(profile.profile_status||"draft").toUpperCase();
+const fields=["first_name","last_name","date_of_birth","state_or_ut","district","education","profession","about"];const count=fields.filter(k=>profile[k]).length;const pct=Math.round(count/fields.length*100);$("completionBar").style.width=pct+"%";$("completionText").textContent="Profile information added: "+pct+"%. You can update anything whenever you like.";
+$("profileDetails").innerHTML=detail("Name",first+" "+last)+detail("Date of birth",safe(profile.date_of_birth))+detail("Location",[profile.district,profile.state_or_ut].filter(Boolean).join(", "))+detail("Education",profile.education)+detail("Profession",profile.profession)+detail("About",profile.about);
+const photos=[profile.photo_close_up_path,profile.photo_half_length_path,profile.photo_full_length_path].filter(Boolean).length;$("photoDetails").textContent=photos+" of 3 photo slots have uploaded files. Use Edit profile to replace or add pictures.";
+$("accountStatus").textContent="Signed in as "+user.email+". Your profile data is loaded from your private account record.";
+}
+async function signOut(){const {error}=await client.auth.signOut();if(error){$("accountStatus").textContent=error.message;return;}location.replace("auth.html");}
+document.querySelectorAll(".navbtn").forEach(b=>b.addEventListener("click",()=>go(b.dataset.view)));
+document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=>go(b.dataset.go)));
+$("viewProfile").addEventListener("click",()=>go("profile"));
+$("signOutTop").addEventListener("click",signOut);$("signOutSettings").addEventListener("click",signOut);
+$("resetPassword").addEventListener("click",async()=>{const {error}=await client.auth.resetPasswordForEmail(user.email,{redirectTo:location.origin+location.pathname.replace("dashboard.html","auth.html")+"?reset=1"});showNotice(error?error.message:"If your account is eligible, a password reset email has been sent. Check your inbox.");});
+const hash=location.hash.replace("#","");if(["overview","profile","photos","settings"].includes(hash))go(hash);
+load();
+})();
+</script>
+</body></html>
