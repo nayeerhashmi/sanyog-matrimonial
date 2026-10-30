@@ -126,7 +126,7 @@ document.querySelectorAll("[data-remove]").forEach(button=>button.addEventListen
  const input=document.getElementById(button.dataset.remove),preview=document.querySelector("#preview"+input.id.replace("photo",""));
  if(photoUrls.has(input.id)){URL.revokeObjectURL(photoUrls.get(input.id));photoUrls.delete(input.id);}
  input.value="";
- const columns={photoClose:"photo_close_up_path",photoHalf:"photo_half_length_path",photoFull:"photo_full_path"};
+ const columns={photoClose:"photo_close_up_path",photoHalf:"photo_half_length_path",photoFull:"photo_full_length_path"};
  const column=columns[input.id];
  if(existingProfile&&existingProfile[column])removedPhotos.add(input.id);
  preview.removeAttribute("src");preview.classList.add("hidden");button.classList.add("hidden");
