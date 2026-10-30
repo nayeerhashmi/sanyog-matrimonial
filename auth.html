@@ -26,7 +26,7 @@
 <button class="primary" id="submitButton" type="submit">Log in</button>
 </form>
 <div id="status" class="status" role="status" aria-live="polite"></div>
-<div id="signedIn" class="hidden"><p id="signedInText"></p><a class="primary" style="display:block;text-align:center;text-decoration:none" href="profile-setup.html">Continue to profile setup</a><button class="primary" type="button" id="logoutButton">Log out</button></div>
+<div id="signedIn" class="hidden"><p id="signedInText"></p><a class="primary" style="display:block;text-align:center;text-decoration:none" href="dashboard.html">Open my dashboard</a><button class="primary" type="button" id="logoutButton">Log out</button></div>
 <div class="privacy">Your account is managed by Supabase Authentication. Profile details are saved privately after you complete profile setup. Photos are not uploaded yet.</div>
 </section>
 <p class="foot"><a href="index.html">← Back to Sanyog</a></p>
@@ -129,7 +129,7 @@
     $("authForm").classList.toggle("hidden", !!session);
     $("switches").classList.toggle("hidden", !!session);
     $("signedIn").classList.toggle("hidden", !session);
-    if (session) $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Continue to profile setup to save your private draft.";
+    if (session) $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Open your dashboard to manage your profile, photos and account settings.";
   }
   client.auth.onAuthStateChange(() => { refreshSession(); });
   if (new URLSearchParams(location.search).has("reset")) {
