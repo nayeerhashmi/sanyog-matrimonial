@@ -26,6 +26,43 @@ mainNav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mainNav
 document.getElementById("year").textContent=new Date().getFullYear();renderProfiles();
 
 
+
+
+// Account avatar shortcut. Signed-in members go straight to their dashboard.
+const accountAvatar = document.getElementById("accountAvatar");
+if (accountAvatar && window.supabase) {
+  try {
+    const accountClient = window.supabase.createClient(
+      "https://eoziavhnktcsqmtnfuhz.supabase.co",
+      "sb_publishable_j1jUq-wkJmt6v_VrHvyimQ_hHu0vSMa"
+    );
+    const updateAccountAvatar = async () => {
+      const { data: { session } } = await accountClient.auth.getSession();
+      const initial = document.getElementById("avatarInitial");
+      if (session) {
+        const meta = session.user.user_metadata || {};
+        const first = (meta.first_name || meta.display_name || session.user.email || "M").trim();
+        const last = (meta.last_name || "").trim();
+        initial.textContent = (first[0] + (last ? last[0] : "")).toUpperCase();
+        accountAvatar.href = "dashboard.html";
+        accountAvatar.classList.add("signed-in");
+        accountAvatar.setAttribute("aria-label", "Open your Sanyog dashboard");
+        accountAvatar.title = "Open dashboard";
+      } else {
+        initial.textContent = "♙";
+        accountAvatar.href = "auth.html";
+        accountAvatar.classList.remove("signed-in");
+        accountAvatar.setAttribute("aria-label", "Log in to your Sanyog account");
+        accountAvatar.title = "Log in";
+      }
+    };
+    updateAccountAvatar();
+    accountClient.auth.onAuthStateChange(() => updateAccountAvatar());
+  } catch (error) {
+    console.warn("Account shortcut could not be initialised.", error);
+  }
+}
+
 // Progressive Web App support. The service worker caches only public static files.
 if ("serviceWorker" in navigator && (location.protocol === "https:" || location.hostname === "localhost")) {
   window.addEventListener("load", () => {
