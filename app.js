@@ -62,12 +62,21 @@ if (accountAvatar && accountPopover && window.supabase) {
       accountAvatar.classList.add("signed-in");
       login.hidden = true; join.hidden = true; logout.hidden = false;
       dashboard.hidden = false; edit.hidden = false; settings.hidden = false; privacy.hidden = false;
+      settings.href = "dashboard.html#settings";
+      privacy.href = "dashboard.html#privacy";
+      settings.querySelector("small").textContent = "Account and preferences";
+      privacy.querySelector("small").textContent = "Manage profile visibility";
     } else {
       initial.textContent = "♙"; popInitial.textContent = "♙";
       name.textContent = "Welcome to Sanyog"; email.textContent = "Log in to manage your profile";
       accountAvatar.classList.remove("signed-in");
       login.hidden = false; join.hidden = false; logout.hidden = true;
-      dashboard.hidden = true; edit.hidden = true; settings.hidden = true; privacy.hidden = true;
+      dashboard.hidden = true; edit.hidden = true;
+      settings.hidden = false; privacy.hidden = false;
+      settings.href = "auth.html";
+      privacy.href = "auth.html";
+      settings.querySelector("small").textContent = "Sign in to manage preferences";
+      privacy.querySelector("small").textContent = "Sign in to manage privacy";
     }
   };
   const closeAccountMenu = () => {
