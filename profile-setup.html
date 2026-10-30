@@ -76,6 +76,7 @@ function showStep(){steps.forEach((s,i)=>s.classList.toggle("hidden",i!==current
 function validateCurrent(){const fields=[...steps[current].querySelectorAll("input[required],select[required]")];for(const field of fields){if(field.type==="checkbox"&&!field.checked){field.focus();return "Please confirm adult eligibility and candidate permission if you are assisting someone.";}if(!field.checkValidity()){field.reportValidity();return "Please complete the required fields before continuing.";}}
 const dob=document.querySelector("#dob");if(current===0&&dob.value){const birth=new Date(dob.value+"T00:00:00"),today=new Date();let age=today.getFullYear()-birth.getFullYear();const m=today.getMonth()-birth.getMonth();if(m<0||(m===0&&today.getDate()<birth.getDate()))age--;if(age<18){dob.focus();return "Sanyog profiles are for adults aged 18 or older.";}}
 if(current===0&&new Date(dob.value+"T00:00:00")>new Date()){dob.focus();return "Date of birth cannot be in the future.";}
+if(current===5){const min=value("prefAgeMin"),max=value("prefAgeMax");if(min&&max&&Number(min)>Number(max)){document.querySelector("#prefAgeMax").focus();return "The preferred maximum age must be equal to or higher than the minimum age.";}}
 return "";}
 function value(id){return document.getElementById(id).value.trim();}
 function profilePayload(){const assisted=manager.value==="I'm helping a candidate with their permission";return {
