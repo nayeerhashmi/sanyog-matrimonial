@@ -28,39 +28,73 @@ document.getElementById("year").textContent=new Date().getFullYear();renderProfi
 
 
 
-// Account avatar shortcut. Signed-in members go straight to their dashboard.
+// Account avatar dropdown. It preserves the existing header and opens account actions in place.
 const accountAvatar = document.getElementById("accountAvatar");
-if (accountAvatar && window.supabase) {
-  try {
-    const accountClient = window.supabase.createClient(
-      "https://eoziavhnktcsqmtnfuhz.supabase.co",
-      "sb_publishable_j1jUq-wkJmt6v_VrHvyimQ_hHu0vSMa"
-    );
-    const updateAccountAvatar = async () => {
-      const { data: { session } } = await accountClient.auth.getSession();
-      const initial = document.getElementById("avatarInitial");
-      if (session) {
-        const meta = session.user.user_metadata || {};
-        const first = (meta.first_name || meta.display_name || session.user.email || "M").trim();
-        const last = (meta.last_name || "").trim();
-        initial.textContent = (first[0] + (last ? last[0] : "")).toUpperCase();
-        accountAvatar.href = "dashboard.html";
-        accountAvatar.classList.add("signed-in");
-        accountAvatar.setAttribute("aria-label", "Open your Sanyog dashboard");
-        accountAvatar.title = "Open dashboard";
-      } else {
-        initial.textContent = "♙";
-        accountAvatar.href = "auth.html";
-        accountAvatar.classList.remove("signed-in");
-        accountAvatar.setAttribute("aria-label", "Log in to your Sanyog account");
-        accountAvatar.title = "Log in";
-      }
-    };
-    updateAccountAvatar();
-    accountClient.auth.onAuthStateChange(() => updateAccountAvatar());
-  } catch (error) {
-    console.warn("Account shortcut could not be initialised.", error);
-  }
+const accountPopover = document.getElementById("accountPopover");
+if (accountAvatar && accountPopover && window.supabase) {
+  const accountClient = window.supabase.createClient(
+    "https://eoziavhnktcsqmtnfuhz.supabase.co",
+    "sb_publishable_j1jUq-wkJmt6v_VrHvyimQ_hHu0vSMa"
+  );
+  const setAccountMenu = async () => {
+    const { data: { session } } = await accountClient.auth.getSession();
+    const signedIn = Boolean(session);
+    const initial = document.getElementById("avatarInitial");
+    const popInitial = document.getElementById("popoverInitial");
+    const name = document.getElementById("popoverName");
+    const email = document.getElementById("popoverEmail");
+    const login = document.getElementById("popoverLogin");
+    const join = document.getElementById("popoverJoin");
+    const logout = document.getElementById("popoverLogout");
+    const dashboard = document.getElementById("popoverDashboard");
+    const edit = document.getElementById("popoverEdit");
+    const settings = document.getElementById("popoverSettings");
+    const privacy = document.getElementById("popoverPrivacy");
+    if (signedIn) {
+      const meta = session.user.user_metadata || {};
+      const first = (meta.first_name || meta.display_name || session.user.email || "Member").trim();
+      const last = (meta.last_name || "").trim();
+      const initials = (first[0] + (last ? last[0] : "")).toUpperCase();
+      initial.textContent = initials;
+      popInitial.textContent = initials;
+      name.textContent = (meta.first_name || meta.display_name || "Your Sanyog account") + (last ? " " + last : "");
+      email.textContent = session.user.email || "";
+      accountAvatar.classList.add("signed-in");
+      login.hidden = true; join.hidden = true; logout.hidden = false;
+      dashboard.hidden = false; edit.hidden = false; settings.hidden = false; privacy.hidden = false;
+    } else {
+      initial.textContent = "♙"; popInitial.textContent = "♙";
+      name.textContent = "Welcome to Sanyog"; email.textContent = "Log in to manage your profile";
+      accountAvatar.classList.remove("signed-in");
+      login.hidden = false; join.hidden = false; logout.hidden = true;
+      dashboard.hidden = true; edit.hidden = true; settings.hidden = true; privacy.hidden = true;
+    }
+  };
+  const closeAccountMenu = () => {
+    accountPopover.hidden = true;
+    accountAvatar.setAttribute("aria-expanded", "false");
+  };
+  accountAvatar.addEventListener("click", async () => {
+    await setAccountMenu();
+    const opening = accountPopover.hidden;
+    accountPopover.hidden = !opening;
+    accountAvatar.setAttribute("aria-expanded", String(opening));
+  });
+  document.addEventListener("click", event => {
+    if (!accountPopover.contains(event.target) && !accountAvatar.contains(event.target)) closeAccountMenu();
+  });
+  document.addEventListener("keydown", event => {
+    if (event.key === "Escape") closeAccountMenu();
+  });
+  document.getElementById("popoverLogout").addEventListener("click", async () => {
+    const { error } = await accountClient.auth.signOut();
+    if (error) { alert("Could not log out. Please try again."); return; }
+    closeAccountMenu();
+    await setAccountMenu();
+    window.location.href = "index.html";
+  });
+  accountClient.auth.onAuthStateChange(() => { setAccountMenu(); });
+  setAccountMenu();
 }
 
 // Progressive Web App support. The service worker caches only public static files.
