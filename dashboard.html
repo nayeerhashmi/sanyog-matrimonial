@@ -20,6 +20,7 @@
 <button class="navbtn" data-view="profile"><span class="navicon">◉</span>My profile</button>
 <button class="navbtn" data-view="photos"><span class="navicon">▧</span>Photos</button>
 <button class="navbtn" data-view="settings"><span class="navicon">⚙</span>Settings</button>
+<button class="navbtn" data-view="privacy"><span class="navicon">◇</span>Privacy</button>
 </aside>
 <div class="main">
 <section class="view" id="view-overview">
@@ -39,6 +40,15 @@
 <div class="setting-row"><div><strong>Account deletion</strong><small>Deletion will be provided through a verified support process. Do not share passwords or verification codes.</small></div><span class="pill">CONTACT SUPPORT</span></div>
 <div class="notice" id="settingsNotice" role="status"></div></div></section>
 </div></div>
+<section class="view hidden" id="view-privacy">
+<div class="panel"><h2>Privacy centre</h2><p class="muted">Your personal details deserve care. These controls explain how your information is handled while Sanyog is being built.</p>
+<div class="setting-row"><div><strong>Profile visibility</strong><small>Your profile is currently a private draft. It is not available for public discovery.</small></div><span class="pill">PRIVATE</span></div>
+<div class="setting-row"><div><strong>Personal information</strong><small>Your date of birth and account details are not intended to appear on public profile cards.</small></div><span class="pill">PRIVATE</span></div>
+<div class="setting-row"><div><strong>Profile photos</strong><small>Photo upload and private storage must be configured before real photos are collected.</small></div><span class="pill">NOT ENABLED</span></div>
+<div class="setting-row"><div><strong>Download your information</strong><small>Account data export is not available yet. Contact support for assistance.</small></div><span class="pill">COMING SOON</span></div>
+<div class="setting-row"><div><strong>Delete your account</strong><small>Account deletion is handled through a verified support process until self-service deletion is implemented.</small></div><span class="pill">CONTACT SUPPORT</span></div>
+<div class="notice show" role="status">Privacy settings are informational at this stage. Your profile remains private and no public discovery is enabled.</div>
+</div></section>
 <p class="foot">Sanyog · Built around respect, choice and meaningful connections.</p>
 </main>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -72,7 +82,7 @@ document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=
 $("viewProfile").addEventListener("click",()=>go("profile"));
 $("signOutTop").addEventListener("click",signOut);$("signOutSettings").addEventListener("click",signOut);
 $("resetPassword").addEventListener("click",async()=>{const {error}=await client.auth.resetPasswordForEmail(user.email,{redirectTo:location.origin+location.pathname.replace("dashboard.html","auth.html")+"?reset=1"});showNotice(error?error.message:"If your account is eligible, a password reset email has been sent. Check your inbox.");});
-const hash=location.hash.replace("#","");if(["overview","profile","photos","settings"].includes(hash))go(hash);
+const hash=location.hash.replace("#","");if(["overview","profile","photos","settings","privacy"].includes(hash))go(hash);
 load();
 })();
 </script>
