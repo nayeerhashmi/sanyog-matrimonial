@@ -57,7 +57,7 @@ const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_j1jUq-wkJmt6v_VrHvyimQ_hHu0vSMa
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_PUBLISHABLE_KEY);
 const form=document.querySelector("#profileForm"),steps=[...document.querySelectorAll(".step")],progress=document.querySelector("#progress"),stepLabel=document.querySelector("#stepLabel"),stepName=document.querySelector("#stepName"),backBtn=document.querySelector("#backBtn"),nextBtn=document.querySelector("#nextBtn"),notice=document.querySelector("#notice");
 const manager=document.querySelector("#manager"),emailInput=document.querySelector("#email"),adultConfirm=document.querySelector("#adultConfirm");
-let current=0,currentUser=null,existingProfile=null,saving=false;
+let current=0,currentUser=null,existingProfile=null,saving=false;const removedPhotos=new Set();
 const names=["Account details","Religion & community","Location & personal details","Education & career","About you & photos"];
 steps.forEach((_,i)=>{const bar=document.createElement("span");if(i===0)bar.classList.add("done");progress.appendChild(bar)});
 function message(text,type="error"){notice.textContent=text;notice.style.background=type==="success"?"#edf8ef":"#f3e8e9";notice.style.color=type==="success"?"#245d31":"#70253f";notice.classList.add("show");}
@@ -76,10 +76,21 @@ state_or_ut:value("state"),district:value("district")||null,marital_status:value
 diet:value("diet")||null,education:value("education")||null,institution:value("college")||null,income_range:value("income")||null,
 employment_sector:value("sector")||null,profession:value("profession")||null,company_name:value("company")||null,
 about:value("about")||null,profile_status:"draft",photo_close_up_path:existingProfile?.photo_close_up_path||null,photo_half_length_path:existingProfile?.photo_half_length_path||null,photo_full_length_path:existingProfile?.photo_full_length_path||null};}
+async function loadSavedPhotos(p){
+ const slots=[["photoClose","photo_close_up_path"],["photoHalf","photo_half_length_path"],["photoFull","photo_full_length_path"]];
+ for(const [inputId,column] of slots){
+  const path=p[column]; if(!path) continue;
+  const result=await supabaseClient.storage.from("member-photos").createSignedUrl(path,3600);
+  if(result.error||!result.data||!result.data.signedUrl) continue;
+  const preview=document.querySelector("#preview"+inputId.replace("photo",""));
+  const remove=document.querySelector('[data-remove="'+inputId+'"]');
+  preview.src=result.data.signedUrl; preview.classList.remove("hidden"); remove.classList.remove("hidden");
+ }
+}
 function fillForm(p){const map={firstName:"first_name",lastName:"last_name",dob:"date_of_birth",religion:"religion",community:"community",subcommunity:"subcommunity",country:"country_of_residence",communityPref:"partner_community_preference",state:"state_or_ut",district:"district",marital:"marital_status",height:"height_range",diet:"diet",education:"education",college:"institution",income:"income_range",sector:"employment_sector",profession:"profession",company:"company_name",about:"about"};for(const [id,key] of Object.entries(map)){const el=document.getElementById(id);if(el&&p[key]!=null)el.value=p[key];}
 manager.value=p.profile_manager==="assisted_with_candidate_permission"?"I'm helping a candidate with their permission":"I'm creating my own profile";adultConfirm.checked=p.profile_manager==="self"||!!p.candidate_consent;}
 async function initialise(){nextBtn.disabled=true;nextBtn.textContent="Checking account…";const {data:{session},error}=await supabaseClient.auth.getSession();if(error||!session){window.location.replace("auth.html?next=profile-setup.html");return;}currentUser=session.user;emailInput.value=currentUser.email||"";emailInput.readOnly=true;
-const {data,error:profileError}=await supabaseClient.from("profiles").select("*").eq("user_id",currentUser.id).maybeSingle();if(profileError){message("We couldn't check your saved profile. Refresh and try again. "+profileError.message);nextBtn.disabled=true;return;}if(data){existingProfile=data;fillForm(data);message("Your saved private draft was loaded. You can update it and save again.","success");}
+const {data,error:profileError}=await supabaseClient.from("profiles").select("*").eq("user_id",currentUser.id).maybeSingle();if(profileError){message("We couldn't check your saved profile. Refresh and try again. "+profileError.message);nextBtn.disabled=true;return;}if(data){existingProfile=data;fillForm(data);await loadSavedPhotos(data);message("Your saved private draft was loaded. You can update it and save again.","success");}
 nextBtn.disabled=false;showStep();}
 backBtn.addEventListener("click",()=>{if(current>0){current--;showStep();}});
 nextBtn.addEventListener("click",async()=>{if(saving)return;const error=validateCurrent();if(error){message(error);return;}if(current<steps.length-1){current++;showStep();return;}saving=true;nextBtn.disabled=true;backBtn.disabled=true;nextBtn.textContent="Saving securely…";notice.classList.remove("show");try{const payload=profilePayload();
@@ -89,24 +100,38 @@ const photoMap=[
   {input:"photoFull",column:"photo_full_length_path",name:"full-length"}
 ];
 for(const photo of photoMap){
-  const input=document.getElementById(photo.input),file=input.files&&input.files[0];
+  const input=document.getElementById(photo.input),file=input.files&&input.files[0],oldPath=existingProfile&&existingProfile[photo.column]||null;
+  if(removedPhotos.has(photo.input)&&!file){
+    if(oldPath){const removal=await supabaseClient.storage.from("member-photos").remove([oldPath]);if(removal.error)throw new Error("Could not remove the saved "+photo.name+" photo. "+removal.error.message);}
+    payload[photo.column]=null;continue;
+  }
   if(!file)continue;
   if(!["image/jpeg","image/png","image/webp"].includes(file.type))throw new Error("Choose JPG, PNG, or WebP images only.");
   if(file.size>5*1024*1024)throw new Error("Each photo must be 5 MB or smaller.");
   const extension=file.type==="image/jpeg"?"jpg":file.type==="image/png"?"png":"webp";
   const path=currentUser.id+"/"+photo.name+"."+extension;
-  const {error:uploadError}=await supabaseClient.storage.from("member-photos").upload(path,file,{upsert:true,contentType:file.type,cacheControl:"3600"});
-  if(uploadError)throw new Error("Could not upload the "+photo.name+" photo. "+uploadError.message);
+  const upload=await supabaseClient.storage.from("member-photos").upload(path,file,{upsert:true,contentType:file.type,cacheControl:"3600"});
+  if(upload.error)throw new Error("Could not upload the "+photo.name+" photo. "+upload.error.message);
+  if(oldPath&&oldPath!==path){const removal=await supabaseClient.storage.from("member-photos").remove([oldPath]);if(removal.error)throw new Error("New photo uploaded, but old "+photo.name+" photo could not be removed. "+removal.error.message);}
   payload[photo.column]=path;
 }
 const {error}=await supabaseClient.from("profiles").upsert(payload,{onConflict:"user_id"});
 if(error)throw error;
-existingProfile=payload;
+existingProfile=payload;removedPhotos.clear();
 const photosSelected=photoMap.some(p=>document.getElementById(p.input).files&&document.getElementById(p.input).files.length);
 message("Your private profile has been saved"+(photosSelected?" with your selected photos uploaded securely.":".")+" Only your signed-in account can access it.","success");nextBtn.textContent="Saved ✓";nextBtn.disabled=true;notice.scrollIntoView({behavior:"smooth",block:"nearest"});}catch(err){message("Your profile was not saved. "+(err.message||"Please try again."));nextBtn.disabled=false;nextBtn.textContent="Try saving again";}finally{saving=false;backBtn.disabled=current===0;}});
 const photoInputs=[...document.querySelectorAll(".photo-input")],photoNotice=document.querySelector("#photoNotice"),photoUrls=new Map();
 photoInputs.forEach(input=>{input.addEventListener("change",()=>{const file=input.files&&input.files[0],preview=document.querySelector("#preview"+input.id.replace("photo","")),remove=document.querySelector('[data-remove="'+input.id+'"]');if(photoUrls.has(input.id)){URL.revokeObjectURL(photoUrls.get(input.id));photoUrls.delete(input.id);}if(!file){preview.classList.add("hidden");preview.removeAttribute("src");remove.classList.add("hidden");return;}if(!["image/jpeg","image/png","image/webp"].includes(file.type)){input.value="";photoNotice.textContent="Please choose a JPG, PNG, or WebP image.";preview.classList.add("hidden");remove.classList.add("hidden");return;}if(file.size>5*1024*1024){input.value="";photoNotice.textContent="That image is larger than 5 MB. Please choose a smaller photo.";preview.classList.add("hidden");remove.classList.add("hidden");return;}const url=URL.createObjectURL(file);photoUrls.set(input.id,url);preview.src=url;preview.classList.remove("hidden");remove.classList.remove("hidden");photoNotice.textContent=file.name+" selected. It will upload securely when you save your profile.";});});
-document.querySelectorAll("[data-remove]").forEach(button=>button.addEventListener("click",()=>{const input=document.getElementById(button.dataset.remove),preview=document.querySelector("#preview"+input.id.replace("photo",""));if(photoUrls.has(input.id)){URL.revokeObjectURL(photoUrls.get(input.id));photoUrls.delete(input.id);}input.value="";preview.removeAttribute("src");preview.classList.add("hidden");button.classList.add("hidden");photoNotice.textContent="Photo removed. Choose another image if you wish.";}));
+document.querySelectorAll("[data-remove]").forEach(button=>button.addEventListener("click",()=>{
+ const input=document.getElementById(button.dataset.remove),preview=document.querySelector("#preview"+input.id.replace("photo",""));
+ if(photoUrls.has(input.id)){URL.revokeObjectURL(photoUrls.get(input.id));photoUrls.delete(input.id);}
+ input.value="";
+ const columns={photoClose:"photo_close_up_path",photoHalf:"photo_half_length_path",photoFull:"photo_full_path"};
+ const column=columns[input.id];
+ if(existingProfile&&existingProfile[column])removedPhotos.add(input.id);
+ preview.removeAttribute("src");preview.classList.add("hidden");button.classList.add("hidden");
+ photoNotice.textContent="Photo marked for removal. Save your profile to delete it from private storage.";
+}));
 window.addEventListener("beforeunload",()=>photoUrls.forEach(url=>URL.revokeObjectURL(url)));
 form.addEventListener("submit",e=>e.preventDefault());
 supabaseClient.auth.onAuthStateChange((event,session)=>{if(event==="SIGNED_OUT"||!session)window.location.replace("auth.html?next=profile-setup.html");});
