@@ -12,7 +12,7 @@
 .account-avatar:hover,.account-avatar[aria-expanded="true"]{transform:translateY(-1px);box-shadow:0 5px 14px rgba(112,37,63,.16)}
 .account-avatar.signed-in{background:var(--wine);color:white;border-color:var(--wine)}
 .account-popover{position:absolute;right:0;top:calc(100% + 14px);width:min(320px,calc(100vw - 32px));padding:10px;background:#fffdfa;border:1px solid #eadfda;border-radius:15px;box-shadow:0 18px 55px rgba(43,27,31,.18);z-index:30;color:#43383a}
-.account-popover[hidden]{display:none}
+.account-popover[hidden],.account-popover [hidden]{display:none!important}
 .account-popover:before{content:"";position:absolute;right:13px;top:-7px;width:13px;height:13px;background:#fffdfa;border-left:1px solid #eadfda;border-top:1px solid #eadfda;transform:rotate(45deg)}
 .account-popover-head{display:flex;align-items:center;gap:11px;padding:10px 9px 14px;border-bottom:1px solid #f0e8e4;margin-bottom:6px}
 .account-popover-avatar{width:39px;height:39px;display:grid;place-items:center;border-radius:50%;background:#f2e5e5;color:var(--wine);font-weight:750}
