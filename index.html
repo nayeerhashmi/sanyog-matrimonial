@@ -17,7 +17,17 @@
   <header class="site-header">
     <a class="brand" href="#" aria-label="Sanyog home"><span class="brand-mark">स</span><span><strong>sanyog</strong><small>J&K · LADAKH · HIMACHAL</small></span></a>
     <button class="menu-toggle" id="menuToggle" aria-expanded="false" aria-controls="mainNav">Menu</button>
-    <nav id="mainNav" class="main-nav"><a href="#how">How it works</a><a href="#values">Our promise</a><a href="#matches">Explore profiles</a><a class="button button-outline" id="loginButton" href="auth.html">Log in</a><a class="button button-primary" id="joinButton" href="profile-setup.html">Create a profile</a><a class="account-avatar" id="accountAvatar" href="auth.html" aria-label="Open your account" title="Your account"><span id="avatarInitial">♙</span></a></nav>
+    <nav id="mainNav" class="main-nav"><a href="#how">How it works</a><a href="#values">Our promise</a><a href="#matches">Explore profiles</a><a class="button button-outline" id="loginButton" href="auth.html">Log in</a><a class="button button-primary" id="joinButton" href="profile-setup.html">Create a profile</a><div class="account-menu-wrap">
+      <button class="account-avatar" id="accountAvatar" type="button" aria-label="Open account menu" aria-haspopup="true" aria-expanded="false" title="Your account"><span id="avatarInitial">♙</span></button>
+      <div class="account-popover" id="accountPopover" hidden>
+        <div class="account-popover-head"><span class="account-popover-avatar" id="popoverInitial">♙</span><div><strong id="popoverName">Welcome to Sanyog</strong><small id="popoverEmail">Your account</small></div></div>
+        <a class="account-popover-link" id="popoverDashboard" href="dashboard.html"><span>▦</span><span><strong>My dashboard</strong><small>Overview and profile activity</small></span></a>
+        <a class="account-popover-link" id="popoverEdit" href="profile-setup.html"><span>✎</span><span><strong>Edit profile</strong><small>Update your personal details</small></span></a>
+        <a class="account-popover-link" id="popoverSettings" href="dashboard.html#settings"><span>⚙</span><span><strong>Settings</strong><small>Account and preferences</small></span></a>
+        <a class="account-popover-link" id="popoverPrivacy" href="dashboard.html#privacy"><span>◇</span><span><strong>Privacy</strong><small>Manage profile visibility</small></span></a>
+        <div class="account-popover-footer"><a id="popoverLogin" href="auth.html">Log in</a><a id="popoverJoin" href="profile-setup.html">Create account</a><button id="popoverLogout" type="button" hidden>Log out</button></div>
+      </div>
+    </div></nav>
   </header>
   <main>
     <section class="hero">
