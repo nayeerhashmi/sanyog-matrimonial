@@ -43,7 +43,7 @@ function getIds(html) {
 
 function resolveLocal(fromFile, raw, label) {
   const value = decode(raw.trim());
-  if (!value || value.startsWith("#") || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(value)) return;
+  if (!value || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(value)) return;
   const clean = value.split("#")[0].split("?")[0];
   if (!clean) return;
   const target = clean ? path.resolve(path.dirname(fromFile), clean) : fromFile;
