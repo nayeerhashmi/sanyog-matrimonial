@@ -13,7 +13,8 @@
 <body>
 <main class="shell">
 <a class="brand" href="index.html"><span class="mark">स</span><span><strong>sanyog</strong><small>J&K · LADAKH · HIMACHAL</small></span></a>
-<nav class="page-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="profile-setup.html">Profile setup</a><a href="photos.html">My photos</a></nav>\n<section class="panel">
+<nav class="page-nav" aria-label="Main navigation"><a href="index.html">Home</a><a href="dashboard.html">Dashboard</a><a href="profile-setup.html">Profile setup</a><a href="photos.html">My photos</a></nav>
+<section class="panel">
 <span class="eyebrow">A thoughtful beginning</span>
 <h1 id="heading">Welcome back.</h1>
 <p id="intro">Sign in to your Sanyog account using your email address.</p>
@@ -27,7 +28,7 @@
 </form>
 <div id="status" class="status" role="status" aria-live="polite"></div>
 <div id="signedIn" class="hidden"><p id="signedInText"></p><a class="primary" style="display:block;text-align:center;text-decoration:none" href="dashboard.html">Open my dashboard</a><button class="primary" type="button" id="logoutButton">Log out</button></div>
-<div class="privacy">Your account is managed by Supabase Authentication. Profile details are saved privately after you complete profile setup. Photos are not uploaded yet.</div>
+<div class="privacy">Your account is managed by Supabase Authentication. Profile details are saved privately after you complete profile setup. Profile photos are stored in private member storage and are available only through your signed-in account.</div>
 </section>
 <p class="foot"><a href="index.html">← Back to Sanyog</a></p>
 </main>
@@ -84,7 +85,7 @@
         if (!firstName || !lastName) throw new Error("Please enter both your first and last name.");
         const { data, error } = await client.auth.signUp({
           email, password,
-          options: { data: { first_name: firstName, last_name: lastName, display_name: firstName + " " + lastName }, emailRedirectTo: window.location.origin + window.location.pathname }
+          options: { data: { first_name: firstName, last_name: lastName, display_name: firstName + " " + lastName }, emailRedirectTo: getAuthRedirectUrl() }
         });
         if (error) throw error;
         if (data.session) {
@@ -124,12 +125,24 @@
     if (error) showStatus(error.message, "error");
     await refreshSession();
   });
+  function getAuthRedirectUrl() {
+    const redirectUrl = new URL(window.location.pathname, window.location.origin);
+    if (new URLSearchParams(window.location.search).get("next") === "profile-setup.html") {
+      redirectUrl.searchParams.set("next", "profile-setup.html");
+    }
+    return redirectUrl.toString();
+  }
   async function refreshSession() {
     const { data: { session } } = await client.auth.getSession();
     $("authForm").classList.toggle("hidden", !!session);
     $("switches").classList.toggle("hidden", !!session);
     $("signedIn").classList.toggle("hidden", !session);
-    if (session) $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Open your dashboard to manage your profile, photos and account settings.";
+    if (session) {
+      $("signedInText").textContent = "Signed in as " + (session.user.email || "your account") + ". Open your dashboard to manage your profile, photos and account settings.";
+      if (!new URLSearchParams(location.search).has("reset") && new URLSearchParams(location.search).get("next") === "profile-setup.html") {
+        window.location.replace("profile-setup.html");
+      }
+    }
   }
   client.auth.onAuthStateChange(() => { refreshSession(); });
   if (new URLSearchParams(location.search).has("reset")) {
