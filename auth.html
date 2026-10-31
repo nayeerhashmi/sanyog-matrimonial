@@ -152,8 +152,12 @@
     $("submitButton").textContent = "Update password";
     $("resetButton").classList.add("hidden");
     $("switches").classList.add("hidden");
+    $("email").required = false;
+    $("email").disabled = true;
     $("email").classList.add("hidden");
     document.querySelector('label[for="email"]').classList.add("hidden");
+    $("password").required = true;
+    $("password").disabled = false;
   }
   refreshSession();
 })();
