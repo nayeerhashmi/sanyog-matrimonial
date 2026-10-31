@@ -8,7 +8,7 @@ const sampleProfiles = [
   {name:"Tsering L.",age:28,district:"Leh",profession:"Researcher",education:"Master's degree",language:"Ladakhi",tone:2,symbol:"ལ",note:"Values curiosity and the outdoors"},
   {name:"Ananya S.",age:27,district:"Kangra",profession:"Designer",education:"Bachelor's degree",language:"Hindi",tone:3,symbol:"अ",note:"Creative, thoughtful, and family-minded"}
 ];
-const grid=document.querySelector("#profileGrid"),searchInput=document.querySelector("#searchInput"),districtFilter=document.querySelector("#districtFilter"),dialog=document.querySelector("#noticeDialog");
+const grid=document.querySelector("#profileGrid"),searchInput=document.querySelector("#searchInput"),districtFilter=document.querySelector("#districtFilter");
 function renderProfiles(){
  const query=searchInput.value.trim().toLowerCase(),district=districtFilter.value;
  const filtered=sampleProfiles.filter(p=>[p.name,p.district,p.profession,p.education,p.language].some(v=>v.toLowerCase().includes(query))&&(district==="all"||p.district===district));
@@ -19,7 +19,7 @@ function renderProfiles(){
 function showNotice(message){dialog.querySelector("p").textContent=message||"This is an early visual prototype. Accounts and registration are not connected yet, so please don't submit personal information.";if(typeof dialog.showModal==="function")dialog.showModal();else alert(message||"Prototype only. Registration is not active.");}
 searchInput.addEventListener("input",renderProfiles);districtFilter.addEventListener("change",renderProfiles);
 ["joinButton","heroJoin","closingJoin"].forEach(id=>{const link=document.getElementById(id);if(link)link.addEventListener("click",event=>{event.preventDefault();window.location.href="profile-setup.html";});});
-document.getElementById("closeDialog").addEventListener("click",()=>dialog.close());document.getElementById("acknowledgeDialog").addEventListener("click",()=>dialog.close());
+
 const menuToggle=document.getElementById("menuToggle"),mainNav=document.getElementById("mainNav");
 menuToggle.addEventListener("click",()=>{const open=mainNav.classList.toggle("open");menuToggle.setAttribute("aria-expanded",String(open));});
 mainNav.querySelectorAll("a").forEach(a=>a.addEventListener("click",()=>{mainNav.classList.remove("open");menuToggle.setAttribute("aria-expanded","false");}));
