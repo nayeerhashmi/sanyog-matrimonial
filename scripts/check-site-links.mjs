@@ -46,7 +46,7 @@ function resolveLocal(fromFile, raw, label) {
   if (!value || value.startsWith("#") || /^(?:[a-z][a-z0-9+.-]*:|\/\/)/i.test(value)) return;
   const clean = value.split("#")[0].split("?")[0];
   if (!clean) return;
-  const target = path.resolve(path.dirname(fromFile), clean);
+  const target = clean ? path.resolve(path.dirname(fromFile), clean) : fromFile;
   if (!target.startsWith(root + path.sep) && target !== root) {
     errors.push(`${relative(fromFile)}: ${label} escapes the repository: ${raw}`);
     return;
