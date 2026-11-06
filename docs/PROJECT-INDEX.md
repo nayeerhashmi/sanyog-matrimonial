@@ -10,8 +10,12 @@ Use this page to find project files by responsibility.
 ## Website and PWA
 - `index.html` — public landing page.
 - `styles.css` — layout, colours, mobile responsiveness.
-- `app.js` — demo profile filtering, UI interactions, service worker registration.
-- `profile-setup.html` — front-end registration flow prototype.
+- `app.js` — demo profile filtering, account menu, UI interactions and service worker registration.
+- `auth.html` — Supabase account registration and sign-in.
+- `profile-setup.html` — private profile creation and editing.
+- `dashboard.html` — member dashboard, account settings and privacy preferences.
+- `photos.html` — member photo gallery.
+- `photo-gallery.html` — redirect to the canonical photo gallery.
 - `manifest.webmanifest` — install metadata.
 - `sw.js` — public static-shell cache only.
 - `icons/sanyog.svg` — app icon.
@@ -24,4 +28,4 @@ Use this page to find project files by responsibility.
 - `docs/CLIENT-HANDOVER.md` — transfer and client ownership process.
 
 ## Current status
-Visual prototype and PWA foundation only. Authentication, database, member data, matchmaking, chat, payments, moderation tooling, and production security are not yet complete.
+Supabase authentication, private profile workflows and photo-management flows are connected in the website. Public discovery, matching, chat, payments, moderation operations, account deletion and production security verification remain incomplete.
