@@ -36,12 +36,11 @@ Deno.serve(async (req) => {
 
   // Remove only objects under this authenticated user's UUID folder.
   const bucket = admin.storage.from("member-photos");
-  let offset = 0;
   const pageSize = 100;
   while (true) {
     const { data: objects, error: listError } = await bucket.list(userId, {
       limit: pageSize,
-      offset,
+      offset: 0,
       sortBy: { column: "name", order: "asc" },
     });
     if (listError) return response({ error: "Could not safely complete photo cleanup. No account was deleted." }, 500);
@@ -56,7 +55,6 @@ Deno.serve(async (req) => {
       if (removeError) return response({ error: "Could not safely remove private photos. No account was deleted." }, 500);
     }
     if (objects.length < pageSize) break;
-    offset += pageSize;
   }
 
   const { error: deleteError } = await admin.auth.admin.deleteUser(userId);
