@@ -37,6 +37,7 @@
 <div class="setting-row"><div><strong>Password</strong><small>Send a secure password reset link to your email.</small></div><button class="action" id="resetPassword">Reset password</button></div>
 <div class="setting-row"><div><strong>Sign-in session</strong><small>Sign out of this device when you're finished.</small></div><button class="action" id="signOutSettings">Sign out</button></div>
 <div class="setting-row"><div><strong>Profile visibility</strong><small>Your profile remains a private draft until review and visibility features are implemented.</small></div><span class="pill">PRIVATE</span></div>
+<div class="setting-row"><div><strong>Download your information</strong><small>Prepare a copy of your account details, profile, reports, blocks and private photo links.</small></div><button class="action" id="exportData">Export my data</button></div>
 <div class="setting-row"><div><strong>Account deletion</strong><small>Self-service deletion is not available yet. See the <a href="account-deletion.html">deletion instructions</a>. Never share passwords or verification codes.</small></div><span class="pill">NOT AUTOMATED</span></div>
 <div class="notice" id="settingsNotice" role="status"></div></div></section>
 </div></div>
@@ -97,6 +98,17 @@ document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=
 $("viewProfile").addEventListener("click",()=>go("profile"));
 $("signOutTop").addEventListener("click",signOut);$("signOutSettings").addEventListener("click",signOut);
 $("savePrivacy").addEventListener("click",savePrivacy);
+$("exportData").addEventListener("click",async()=>{
+ const button=$("exportData");button.disabled=true;button.textContent="Preparing…";
+ try{
+  const {data,error}=await client.functions.invoke("account-export",{body:{}});
+  if(error)throw error;
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="sanyog-personal-data-export.json";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
+  showNotice("Your personal data export has been downloaded. Keep the file private.");
+ }catch(error){showNotice(error.message||"We couldn't prepare your data export.");}
+ finally{button.disabled=false;button.textContent="Export my data";}
+});
 $("resetPassword").addEventListener("click",async()=>{const {error}=await client.auth.resetPasswordForEmail(user.email,{redirectTo:location.origin+location.pathname.replace("dashboard.html","auth.html")+"?reset=1"});showNotice(error?error.message:"If your account is eligible, a password reset email has been sent. Check your inbox.");});
 const hash=location.hash.replace("#","");if(["overview","profile","photos","settings","privacy"].includes(hash))go(hash);
 load();
