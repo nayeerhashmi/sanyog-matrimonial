@@ -7,6 +7,8 @@ create table if not exists public.profiles (
   first_name text not null check (char_length(first_name) between 1 and 60),
   last_name text not null check (char_length(last_name) between 1 and 60),
   date_of_birth date not null,
+  gender_identity text check (gender_identity is null or gender_identity in ('Woman', 'Man', 'Non-binary', 'Self-describe')),
+  gender_identity_other text,
   profile_manager text not null check (
     profile_manager in ('self', 'assisted_with_candidate_permission')
   ),
