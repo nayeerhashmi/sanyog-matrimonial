@@ -131,7 +131,7 @@ async function deleteAccount(button){
   const recent=Number.isFinite(authTime)&&Math.floor(Date.now()/1000)-authTime<=600;
   if(!recent){
    await client.auth.signOut();
-   location.replace("auth.html?reauth=delete");
+   location.replace("auth.html?next=delete");
    return;
   }
   button.textContent="Deleting…";
