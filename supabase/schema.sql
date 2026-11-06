@@ -30,6 +30,8 @@ create table if not exists public.profiles (
   profession text,
   company_name text,
   about text check (about is null or char_length(about) <= 1200),
+  profile_visibility jsonb not null default '{}'::jsonb check (jsonb_typeof(profile_visibility) = 'object'),
+  photo_visibility jsonb not null default '{}'::jsonb check (jsonb_typeof(photo_visibility) = 'object'),
   profile_status text not null default 'draft' check (
     profile_status in ('draft', 'pending_review', 'active', 'paused', 'rejected')
   ),
