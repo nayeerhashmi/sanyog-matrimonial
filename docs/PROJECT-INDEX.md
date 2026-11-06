@@ -24,6 +24,7 @@ Use this page to find project files by responsibility.
 - `.github/workflows/pages.yml` — GitHub Pages deployment workflow.
 - `.gitignore` — ignore local secrets and build artefacts.
 - `docs/BUILD-ROADMAP.md` — milestones and implementation sequence.
+- `docs/SESSION-CHECKPOINT-2026-11-06.md` — confirmed product decisions and exact point to resume.
 - `docs/SECURITY-AND-LAUNCH.md` — launch readiness and safety.
 - `docs/CLIENT-HANDOVER.md` — transfer and client ownership process.
 
