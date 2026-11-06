@@ -58,7 +58,7 @@
 <div class="notice" id="privacyNotice" role="status" aria-live="polite"></div>
 <hr style="border:0;border-top:1px solid var(--line);margin:25px 0">
 <div class="setting-row"><div><strong>Personal information</strong><small>Your full date of birth, account email and contact details are private.</small></div><span class="pill">PRIVATE</span></div>
-<div class="setting-row"><div><strong>Download your information</strong><small>Self-service export is not available yet. See the <a href="privacy-policy.html">Privacy Policy</a> for the current request status.</small></div><span class="pill">NOT AVAILABLE</span></div>
+<div class="setting-row" data-build="20261106-3"><div><strong>Download your information</strong><small>Download a copy of your account details, profile, reports, blocks and private photo links.</small></div><button class="action" id="exportData2" type="button">Export my data</button></div>
 <div class="setting-row"><div><strong>Delete your account</strong><small>Deletion is not automated. Read the <a href="account-deletion.html">account deletion instructions</a>.</small></div><span class="pill">NOT AUTOMATED</span></div>
 </div></section>
 <p class="foot">Sanyog · Built around respect, choice and meaningful connections.<br><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="community-guidelines.html">Community guidelines</a> · <a href="safety.html">Safety</a> · <a href="contact.html">Contact</a> · <a href="account-deletion.html">Account deletion</a></p>
@@ -98,6 +98,17 @@ document.querySelectorAll("[data-go]").forEach(b=>b.addEventListener("click",()=
 $("viewProfile").addEventListener("click",()=>go("profile"));
 $("signOutTop").addEventListener("click",signOut);$("signOutSettings").addEventListener("click",signOut);
 $("savePrivacy").addEventListener("click",savePrivacy);
+$("exportData2").addEventListener("click",async()=>{
+ const button=$("exportData2");button.disabled=true;button.textContent="Preparing…";
+ try{
+  const {data,error}=await client.functions.invoke("account-export",{body:{}});
+  if(error)throw error;
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);const link=document.createElement("a");link.href=url;link.download="sanyog-personal-data-export.json";document.body.appendChild(link);link.click();link.remove();URL.revokeObjectURL(url);
+  showPrivacyNotice("Your personal data export has been downloaded. Keep the file private.");
+ }catch(error){showPrivacyNotice(error.message||"We couldn't prepare your data export.");}
+ finally{button.disabled=false;button.textContent="Export my data";}
+});
 $("exportData").addEventListener("click",async()=>{
  const button=$("exportData");button.disabled=true;button.textContent="Preparing…";
  try{
