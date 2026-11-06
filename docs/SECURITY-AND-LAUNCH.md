@@ -9,7 +9,7 @@ This checklist is planning guidance, not legal advice or a security certificatio
 - Never expose member records or photos publicly by default.
 - Never allow family access to private messages simply because they help manage a profile.
 
-## Before collecting real user data
+## Legal and trust pages added\n- Provisional Privacy Policy and Terms are published as drafts with missing operator/contact details clearly marked.\n- Community Guidelines and Safety Centre are published.\n- Contact and account-deletion guidance pages are published with placeholders.\n- These pages are not legal approval, a functioning grievance channel, an automated deletion process, or a reporting/moderation system.\n\n## Before collecting real user data
 - Create a separate development backend project.
 - Configure authentication providers and allowed redirect URLs.
 - Enforce adult eligibility and candidate consent.
