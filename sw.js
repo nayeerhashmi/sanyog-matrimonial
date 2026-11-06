@@ -1,6 +1,6 @@
 /* Sanyog static-site service worker.
    Only cache the public app shell. Never cache APIs, form submissions, or user data. */
-const CACHE_NAME = "sanyog-shell-v1";
+const CACHE_NAME = "sanyog-shell-v2";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -22,7 +22,7 @@ self.addEventListener("fetch", event => {
   const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
   if (url.pathname.includes("/api/")) return;
-  event.respondWith(fetch(request).then(response => {
+  event.respondWith(fetch(request, { cache: request.destination === "document" ? "reload" : "default" }).then(response => {
     if (response.ok && (request.destination === "document" || ["style","script","image","manifest"].includes(request.destination))) {
       const copy = response.clone();
       caches.open(CACHE_NAME).then(cache => cache.put(request, copy));
