@@ -38,7 +38,7 @@
 <div class="setting-row"><div><strong>Sign-in session</strong><small>Sign out of this device when you're finished.</small></div><button class="action" id="signOutSettings">Sign out</button></div>
 <div class="setting-row"><div><strong>Profile visibility</strong><small>Your profile remains a private draft until review and visibility features are implemented.</small></div><span class="pill">PRIVATE</span></div>
 <div class="setting-row" data-build="20261106-2"><div><strong>Download your information</strong><small>Your account data export is available. Download your profile, account details, reports, blocks and private photo links.</small></div><button class="action" id="exportData" type="button">Export my data</button></div>
-<div class="setting-row"><div><strong>Account deletion</strong><small>Self-service deletion is not available yet. See the <a href="account-deletion.html">deletion instructions</a>. Never share passwords or verification codes.</small></div><span class="pill">NOT AUTOMATED</span></div>
+<div class="setting-row"><div><strong>Delete your account</strong><small>Permanently delete your Sanyog account, profile and uploaded photos. You will be asked to confirm and sign in again.</small></div><button class="action" id="deleteAccount" type="button">Delete account</button></div>
 <div class="notice" id="settingsNotice" role="status"></div></div></section>
 </div></div>
 <section class="view hidden" id="view-privacy">
@@ -59,7 +59,7 @@
 <hr style="border:0;border-top:1px solid var(--line);margin:25px 0">
 <div class="setting-row"><div><strong>Personal information</strong><small>Your full date of birth, account email and contact details are private.</small></div><span class="pill">PRIVATE</span></div>
 <div class="setting-row" data-build="20261106-3"><div><strong>Download your information</strong><small>Download a copy of your account details, profile, reports, blocks and private photo links.</small></div><button class="action" id="exportData2" type="button">Export my data</button></div>
-<div class="setting-row"><div><strong>Delete your account</strong><small>Deletion is not automated. Read the <a href="account-deletion.html">account deletion instructions</a>.</small></div><span class="pill">NOT AUTOMATED</span></div>
+<div class="setting-row"><div><strong>Delete your account</strong><small>Permanently delete your Sanyog account, profile and uploaded photos.</small></div><button class="action" id="deleteAccount2" type="button">Delete account</button></div>
 </div></section>
 <p class="foot">Sanyog · Built around respect, choice and meaningful connections.<br><a href="privacy-policy.html">Privacy</a> · <a href="terms.html">Terms</a> · <a href="community-guidelines.html">Community guidelines</a> · <a href="safety.html">Safety</a> · <a href="contact.html">Contact</a> · <a href="account-deletion.html">Account deletion</a></p>
 </main>
@@ -120,6 +120,34 @@ $("exportData").addEventListener("click",async()=>{
  }catch(error){showNotice(error.message||"We couldn't prepare your data export.");}
  finally{button.disabled=false;button.textContent="Export my data";}
 });
+async function deleteAccount(button){
+ const confirmed=window.prompt('This permanently deletes your Sanyog account and profile. Type DELETE MY ACCOUNT to continue.');
+ if(confirmed!=="DELETE MY ACCOUNT"){if(confirmed!==null)showNotice("Confirmation did not match. Nothing was deleted.");return;}
+ button.disabled=true;button.textContent="Checking session…";
+ try{
+  const {data:{session},error:sessionError}=await client.auth.getSession();
+  if(sessionError||!session)throw new Error("Your session has expired. Sign in again.");
+  const authTime=Number(session.user?.app_metadata?.auth_time||session.access_token&&JSON.parse(atob(session.access_token.split(".")[1])).auth_time);
+  const recent=Number.isFinite(authTime)&&Math.floor(Date.now()/1000)-authTime<=600;
+  if(!recent){
+   await client.auth.signOut();
+   location.replace("auth.html?reauth=delete");
+   return;
+  }
+  button.textContent="Deleting…";
+  const {data,error}=await client.functions.invoke("account-delete",{body:{confirmation:"DELETE MY ACCOUNT"}});
+  if(error)throw error;
+  if(!data?.success)throw new Error(data?.error||"Deletion could not be confirmed.");
+  await client.auth.signOut();
+  alert(data.photo_cleanup_warning||"Your Sanyog account has been deleted.");
+  location.replace("index.html");
+ }catch(error){
+  showNotice(error.message||"Account deletion could not be completed. Nothing was confirmed as deleted.");
+  button.disabled=false;button.textContent="Delete account";
+ }
+}
+$("deleteAccount").addEventListener("click",event=>deleteAccount(event.currentTarget));
+$("deleteAccount2").addEventListener("click",event=>deleteAccount(event.currentTarget));
 $("resetPassword").addEventListener("click",async()=>{const {error}=await client.auth.resetPasswordForEmail(user.email,{redirectTo:location.origin+location.pathname.replace("dashboard.html","auth.html")+"?reset=1"});showNotice(error?error.message:"If your account is eligible, a password reset email has been sent. Check your inbox.");});
 const hash=location.hash.replace("#","");if(["overview","profile","photos","settings","privacy"].includes(hash))go(hash);
 load();
