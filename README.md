@@ -6,7 +6,7 @@ A client-owned matrimonial platform for Jammu & Kashmir, Ladakh, and Himachal Pr
 This is a client project. Keep ownership, accounts, billing, domain, hosting, email delivery, database, storage, analytics, and app-store listings under the client's control wherever possible. Use delegated access rather than personal production credentials. Before handover, transfer repository administration to the client, document services and recovery, rotate secrets, and revoke unnecessary developer access.
 
 ## Current status
-This repository contains a visual prototype and project documentation. It is not a production matrimonial service. Registration does not create accounts or save data. Sample profiles are fictional.
+The website has Supabase authentication and connected profile and photo-management flows. The landing page uses fictional sample profiles. Public member discovery, matching, messaging, moderation operations, and self-service account deletion are not yet complete. Backend security policies, deployment settings, and all account and storage permissions must be tested before real members are invited.
 
 ## Regional scope
 Initial focus: Jammu & Kashmir, Ladakh, and Himachal Pradesh. The platform is open to all religions and communities. Caste, community, tribe, language, religion, and location are distinct optional fields; identity must never be inferred from name or location. See [Regional Taxonomy](docs/REGIONAL-TAXONOMY.md).
