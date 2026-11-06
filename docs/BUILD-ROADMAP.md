@@ -20,23 +20,23 @@ Mobile-first website, designed to become an installable Progressive Web App (PWA
 - Discovery is for authenticated, email-verified members only.
 - Gender identity and preferred partner gender are separate fields. Partner preference supports men, women, or all genders.
 - Members choose which eligible profile fields are visible. Private account data such as full date of birth and email is never exposed.
-- Search filters at launch: age range, state/district/location, gender preference, marital status, education, religion, community/subcommunity, and diet.
+- Advanced search filters at launch: age range, state/district/location, gender preference, marital status, education, religion, community/subcommunity, diet, profession, height, and income range. Hidden fields must not be exposed through cards or filter results.
 - Photo privacy supports visible to verified members, private, and blurred until selectively revealed.
 - No pause-profile feature in the current scope. Published profiles remain visible until profile/account deletion.
-- An interest request can include a short introductory message. Chat opens only after the recipient accepts.
+- Discovery is ranked by compatibility first, using flexible matching that prioritises profiles meeting more selected preferences rather than requiring every preference to match. Missing or undisclosed data is not automatically a mismatch.
+- Show an indicative compatibility percentage with a brief explanation of matching preferences. Keep the calculation transparent and do not imply it predicts relationship success.
+- Interest request format is the next product decision to confirm. Existing product direction includes an introductory message; confirm whether the launch flow is a simple message or adds structured prompts. Chat opens only after the recipient accepts.
 - Reporting, blocking, and admin moderation are deferred for now and must be revisited before public launch.
 - Payments are deferred. The planned future paid benefit is unlimited interest requests for two months. No payment or entitlement code should be added yet.
 
 ## Next build sequence
-1. Update the registration form and profile schema for gender identity and partner-gender preferences. Remove the family-manager workflow from the active member experience.
-2. Define required profile-completion fields and email-verification gating.
-3. Design a scoped discovery data layer that exposes only member-approved fields. Keep the existing `profiles` table owner-only; do not solve discovery by making it broadly readable.
-4. Add member-controlled field visibility settings.
-5. Implement the three photo visibility modes while retaining private storage and authorized image delivery.
-6. Build member discovery and the agreed search filters.
-7. Build interest requests with introductory messages, acceptance/decline, and chat authorization after acceptance.
-8. Complete security, privacy, legal, accessibility, and abuse-prevention review before beta.
-9. Integrate payments later, including the planned two-month unlimited-interest entitlement. Pricing and other plan rules remain undecided.
+1. Confirm required profile-completion fields and secure email-verification gating.
+2. Design a scoped discovery data layer that exposes only member-approved fields. Keep the existing `profiles` table owner-only; do not solve discovery by making it broadly readable.
+3. Implement secure photo visibility modes while retaining private storage and authorized image delivery.
+4. Build discovery with advanced filters and compatibility-first flexible ranking, including an explainable indicative percentage.
+5. Confirm the interest request format, then build requests, acceptance/decline, and chat authorization after acceptance.
+6. Complete security, privacy, legal, accessibility, and abuse-prevention review before beta.
+7. Integrate payments later, including the planned two-month unlimited-interest entitlement. Pricing and other plan rules remain undecided.
 
 ## Deferred scope
 - Payment collection and subscription management.
