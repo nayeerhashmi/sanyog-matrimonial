@@ -67,7 +67,7 @@ Collect only information needed for profile creation and member-selected prefere
 - Rank discovery results by compatibility first.
 - Use flexible matching: prioritise profiles that satisfy more of a member's selected partner preferences instead of requiring every preference to match.
 - Treat preferences as ranking signals, not guarantees. Missing or undisclosed profile data must not be treated as a mismatch by default.
-- Explain ranking in plain language and do not claim a score scientifically predicts relationship success.
+- Display a compatibility percentage alongside a short explanation of the preferences that match. Make the calculation transparent and indicative, not a scientific prediction of relationship success.
 - Keep profile identity separate from partner preferences.
 
 ## Trust, privacy, and safety
