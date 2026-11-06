@@ -37,8 +37,7 @@ Build a trustworthy, mobile-first matrimonial service initially serving Jammu an
 - Members control which profile details are visible to other members.
 - Build individual visibility controls for eligible profile fields rather than one all-or-nothing setting.
 - Private account data is never eligible for public profile display.
-- Search filters at launch: age range, state/district/location, gender preference, marital status, education, religion, community/subcommunity, and diet.
-- Profession, height, and income range are not launch search filters.
+- Search filters at launch are advanced: age range, state/district/location, gender preference, marital status, education, religion, community/subcommunity, diet, profession, height, and income range. Only fields the member has chosen to make visible may be displayed on profile cards; filter handling must not reveal hidden values.
 
 ### Photo privacy
 - Support three member-selectable photo visibility modes: visible to verified members, private, and blurred until selectively revealed.
@@ -65,7 +64,11 @@ Build a trustworthy, mobile-first matrimonial service initially serving Jammu an
 Collect only information needed for profile creation and member-selected preferences. Date of birth is used to verify adult eligibility and calculate age; never display the full date of birth. Religion, community, subcommunity, diet, education, profession, marital status, height, income range, and photos should have clear optionality and visibility controls where appropriate. Contact details remain private.
 
 ## Matchmaking
-Use member-selected preferences and transparent ranking. Do not claim a score scientifically predicts relationship success. Keep profile identity separate from partner preferences.
+- Rank discovery results by compatibility first.
+- Use flexible matching: prioritise profiles that satisfy more of a member's selected partner preferences instead of requiring every preference to match.
+- Treat preferences as ranking signals, not guarantees. Missing or undisclosed profile data must not be treated as a mismatch by default.
+- Explain ranking in plain language and do not claim a score scientifically predicts relationship success.
+- Keep profile identity separate from partner preferences.
 
 ## Trust, privacy, and safety
 - Service is intended for adults aged 18+.
