@@ -20,7 +20,7 @@ Use this page to find project files by responsibility.
 - `sw.js` — public static-shell cache only.
 - `icons/sanyog.svg` — app icon.
 
-## Engineering and delivery
+## Legal and trust pages\n- `privacy-policy.html` — provisional privacy notice.\n- `terms.html` — provisional terms and conditions.\n- `community-guidelines.html` — member conduct rules.\n- `safety.html` — safety guidance and feature limitations.\n- `contact.html` — pending verified contact details.\n- `account-deletion.html` — account and data deletion guidance.\n- `legal.css` — shared legal-page styling.\n\n## Engineering and delivery
 - `.github/workflows/pages.yml` — GitHub Pages deployment workflow.
 - `.gitignore` — ignore local secrets and build artefacts.
 - `docs/BUILD-ROADMAP.md` — milestones and implementation sequence.
