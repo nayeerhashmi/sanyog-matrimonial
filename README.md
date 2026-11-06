@@ -11,7 +11,7 @@ The website has Supabase authentication and connected profile and photo-manageme
 ## Regional scope
 Initial focus: Jammu & Kashmir, Ladakh, and Himachal Pradesh. The platform is open to all religions and communities. Caste, community, tribe, language, religion, and location are distinct optional fields; identity must never be inferred from name or location. See [Regional Taxonomy](docs/REGIONAL-TAXONOMY.md).
 
-## Project map
+## Legal and trust pages\n- `privacy-policy.html` — provisional privacy notice; operator details and legal review pending.\n- `terms.html` — provisional terms; legal review pending.\n- `community-guidelines.html` — member conduct rules.\n- `safety.html` — safety guidance; report/block workflow not yet active.\n- `contact.html` — contact placeholders pending verified operator details.\n- `account-deletion.html` — deletion guidance; self-service deletion not implemented.\n- `legal.css` — shared styling for legal and trust pages.\n\n## Project map
 See [Project Index](docs/PROJECT-INDEX.md) for the file map grouped by responsibility.
 
 - Product: `docs/PRODUCT-SPEC.md`, `docs/REGISTRATION-FLOW.md`
