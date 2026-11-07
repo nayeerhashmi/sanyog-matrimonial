@@ -1,4 +1,4 @@
-# Sanyog session checkpoint — 6 November 2026
+# Sanyog session checkpoint — 7 November 2026
 
 Use this file to resume the product-planning and build conversation from the next session. The source of truth remains `docs/PRODUCT-SPEC.md` and `docs/BUILD-ROADMAP.md`.
 
@@ -58,7 +58,9 @@ Use this file to resume the product-planning and build conversation from the nex
 
 ## Next step when resuming
 
-The next unresolved product decision is whether pending interest requests should expire automatically if the recipient does not respond. Ask the user to choose between no automatic expiry, expiry after 30 days, or expiry after 90 days. Record the choice in the product specification, roadmap, and this checkpoint.
+The next unresolved product decision is pending interest request expiry. The user has NOT chosen an option yet. The question is whether unanswered requests should never expire, expire after 30 days, or expire after 90 days. Resume by asking this exact question and wait for the user's choice. Do not assume a default.
+
+The user ended the 7 November 2026 session and wants to continue tomorrow from this exact point. Do not repeat previously answered questions. After the pending-request expiry choice, continue one meaningful product decision at a time and update the product specification, roadmap, and checkpoint as decisions are confirmed.
 
 ## User workflow preferences
 
