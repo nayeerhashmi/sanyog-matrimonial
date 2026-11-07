@@ -52,6 +52,7 @@ Build a trustworthy, mobile-first matrimonial service initially serving Jammu an
 ### Interests and messaging
 - Interest request format: personal introduction. A member sends an interest request with a short introductory message. Structured conversation prompts are not part of the initial request flow.
 - Notify recipients of new interest requests through both an in-app notification and an email.
+- When an interest request is accepted or declined, notify the sender inside the app only. Do not send an email for these status changes.
 - The recipient can accept or decline.
 - Senders cannot withdraw an interest request after sending it. A pending request remains pending until the recipient accepts or declines.
 - If an interest request is declined, the sender may send another request to the same member after a 30-day waiting period.
