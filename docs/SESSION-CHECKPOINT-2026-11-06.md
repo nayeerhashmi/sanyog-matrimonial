@@ -39,13 +39,9 @@ Use this file to resume the product-planning and build conversation from the nex
 
 ## Next step when resuming
 
-The last unanswered product question was the interest request format:
+The interest request format has now been decided: **B. Personal introduction with a short introductory message.** Structured conversation prompts are not part of the initial request flow. The recipient can accept or decline; private chat is available only after acceptance.
 
-A. Simple interest with no message.
-B. Personal introduction with a short message.
-C. Structured introduction with a message and conversation prompts.
-
-Ask the user to choose this first. Then continue one meaningful product decision at a time, recording decisions in the product spec and roadmap before implementing dependent features.
+Next unresolved product decision: whether a sender can withdraw an interest request before the recipient responds. Ask this as one clear choice, then record the answer in the product spec, roadmap, and checkpoint.
 
 ## User workflow preferences
 
