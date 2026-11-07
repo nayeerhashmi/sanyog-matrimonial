@@ -55,6 +55,7 @@ Build a trustworthy, mobile-first matrimonial service initially serving Jammu an
 - When an interest request is accepted or declined, notify the sender inside the app only. Do not send an email for these status changes.
 - Members can disable email notifications for new interest requests in account settings. In-app notifications remain enabled regardless of this email preference.
 - Interest-request emails must not include the sender's introductory message. The email only alerts the recipient that a request has arrived; they must sign in to read the message.
+- Do not reveal the identity of profile visitors. Members may see an aggregate profile-view count only, without names or visitor-level details.
 - The recipient can accept or decline.
 - Senders cannot withdraw an interest request after sending it. A pending request remains pending until the recipient accepts or declines.
 - If an interest request is declined, the sender may send another request to the same member after a 30-day waiting period.
