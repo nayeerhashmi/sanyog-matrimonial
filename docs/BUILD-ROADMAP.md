@@ -25,7 +25,8 @@ Mobile-first website, designed to become an installable Progressive Web App (PWA
 - No pause-profile feature in the current scope. Published profiles remain visible until profile/account deletion.
 - Discovery is ranked by compatibility first, using flexible matching that prioritises profiles meeting more selected preferences rather than requiring every preference to match. Missing or undisclosed data is not automatically a mismatch.
 - Show an indicative compatibility percentage with a brief explanation of matching preferences. Keep the calculation transparent and do not imply it predicts relationship success.
-- Interest request format: personal introduction with a short introductory message. No structured conversation prompts in the initial request flow. Chat opens only after the recipient accepts.
+- Interest request format: personal introduction with a short introductory message. No structured conversation prompts in the initial request flow.
+- A sender cannot withdraw a sent request. It remains pending until the recipient accepts or declines. Chat opens only after acceptance.
 - Reporting, blocking, and admin moderation are deferred for now and must be revisited before public launch.
 - Payments are deferred. The planned future paid benefit is unlimited interest requests for two months. No payment or entitlement code should be added yet.
 
