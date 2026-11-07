@@ -26,7 +26,7 @@ Mobile-first website, designed to become an installable Progressive Web App (PWA
 - Discovery is ranked by compatibility first, using flexible matching that prioritises profiles meeting more selected preferences rather than requiring every preference to match. Missing or undisclosed data is not automatically a mismatch.
 - Show an indicative compatibility percentage with a brief explanation of matching preferences. Keep the calculation transparent and do not imply it predicts relationship success.
 - Interest request format: personal introduction with a short introductory message. No structured conversation prompts in the initial request flow.
-- Notify recipients of new interest requests through both in-app notifications and email.
+- Notify recipients of new interest requests through both in-app notifications and email. For accepted or declined requests, notify the sender in-app only, without a status-change email.
 - A sender cannot withdraw a sent request. It remains pending until the recipient accepts or declines.
 - After a decline, the sender may send another request to the same member after a 30-day waiting period. Chat opens only after acceptance.
 - Reporting, blocking, and admin moderation are deferred for now and must be revisited before public launch.
