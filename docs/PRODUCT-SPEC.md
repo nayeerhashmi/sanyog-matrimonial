@@ -50,7 +50,7 @@ Build a trustworthy, mobile-first matrimonial service initially serving Jammu an
 - Account deletion and profile deletion must clearly explain what data is removed and what is retained for legitimate operational or legal reasons.
 
 ### Interests and messaging
-- A member can send an interest request with a short introductory message.
+- Interest request format: personal introduction. A member sends an interest request with a short introductory message. Structured conversation prompts are not part of the initial request flow.
 - The recipient can accept or decline.
 - Private chat becomes available only after the recipient accepts.
 - Do not allow unsolicited direct messaging before acceptance.
