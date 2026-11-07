@@ -25,7 +25,7 @@ Mobile-first website, designed to become an installable Progressive Web App (PWA
 - No pause-profile feature in the current scope. Published profiles remain visible until profile/account deletion.
 - Discovery is ranked by compatibility first, using flexible matching that prioritises profiles meeting more selected preferences rather than requiring every preference to match. Missing or undisclosed data is not automatically a mismatch.
 - Show an indicative compatibility percentage with a brief explanation of matching preferences. Keep the calculation transparent and do not imply it predicts relationship success.
-- Interest request format is the next product decision to confirm. Existing product direction includes an introductory message; confirm whether the launch flow is a simple message or adds structured prompts. Chat opens only after the recipient accepts.
+- Interest request format: personal introduction with a short introductory message. No structured conversation prompts in the initial request flow. Chat opens only after the recipient accepts.
 - Reporting, blocking, and admin moderation are deferred for now and must be revisited before public launch.
 - Payments are deferred. The planned future paid benefit is unlimited interest requests for two months. No payment or entitlement code should be added yet.
 
@@ -34,7 +34,7 @@ Mobile-first website, designed to become an installable Progressive Web App (PWA
 2. Design a scoped discovery data layer that exposes only member-approved fields. Keep the existing `profiles` table owner-only; do not solve discovery by making it broadly readable.
 3. Implement secure photo visibility modes while retaining private storage and authorized image delivery.
 4. Build discovery with advanced filters and compatibility-first flexible ranking, including an explainable indicative percentage.
-5. Confirm the interest request format, then build requests, acceptance/decline, and chat authorization after acceptance.
+5. Build personal-introduction interest requests with a short message, recipient acceptance/decline, and chat authorization only after acceptance.
 6. Complete security, privacy, legal, accessibility, and abuse-prevention review before beta.
 7. Integrate payments later, including the planned two-month unlimited-interest entitlement. Pricing and other plan rules remain undecided.
 
