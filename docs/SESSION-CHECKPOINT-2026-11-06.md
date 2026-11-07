@@ -37,11 +37,28 @@ Use this file to resume the product-planning and build conversation from the nex
 - Never put Supabase service-role or secret keys in browser code or GitHub.
 - Committing SQL files to GitHub does not apply them to Supabase.
 
+## Confirmed decisions added during the 7 November session
+
+### Interest request lifecycle and notifications
+- Request format: personal introduction with a short message. No structured prompts in the initial flow.
+- Sender cannot withdraw a sent request. It remains pending until accepted or declined.
+- After a decline, the sender may send another request to the same member after 30 days.
+- New request notification: both in-app and email.
+- Members can disable new-interest email alerts in account settings. In-app alerts remain on.
+- Acceptance or decline notifications: in-app only; no status-change email.
+- Interest emails do not include the introductory message. The recipient must sign in to read it.
+
+### Profile views
+- Show aggregate view counts only. Never identify visitors or expose visitor-level activity.
+- Exclude the profile owner's own visits.
+- Keep a lifetime cumulative count without monthly resets.
+- Each other member counts once per profile lifetime, regardless of repeat visits.
+- Record the view immediately when another member opens the profile.
+- Display the count on the main dashboard as a number only, without explanatory caption.
+
 ## Next step when resuming
 
-The interest request format has now been decided: **B. Personal introduction with a short introductory message.** Structured conversation prompts are not part of the initial request flow. The recipient can accept or decline; private chat is available only after acceptance.
-
-Next unresolved product decision: whether a sender can withdraw an interest request before the recipient responds. Ask this as one clear choice, then record the answer in the product spec, roadmap, and checkpoint.
+The next unresolved product decision is whether pending interest requests should expire automatically if the recipient does not respond. Ask the user to choose between no automatic expiry, expiry after 30 days, or expiry after 90 days. Record the choice in the product specification, roadmap, and this checkpoint.
 
 ## User workflow preferences
 
