@@ -53,6 +53,7 @@ Build a trustworthy, mobile-first matrimonial service initially serving Jammu an
 - Interest request format: personal introduction. A member sends an interest request with a short introductory message. Structured conversation prompts are not part of the initial request flow.
 - The recipient can accept or decline.
 - Senders cannot withdraw an interest request after sending it. A pending request remains pending until the recipient accepts or declines.
+- If an interest request is declined, the sender may send another request to the same member after a 30-day waiting period.
 - Private chat becomes available only after the recipient accepts.
 - Do not allow unsolicited direct messaging before acceptance.
 
